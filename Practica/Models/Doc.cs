@@ -9,16 +9,13 @@ namespace Practica.Models
     public class Doc
     {
         [Key]
-        public int Id { get; set; } = -1;
+        public int Id { get; set; }
         [Required]
-        public string Name { get; set; } = "";
-        [Required]
-        public string Email { get; set; } = "";
-        [Required]
-        public string BirthDate { get; set; } = "";
-        [Required]
-        public string Education { get; set; } = "";
-        [Required]
-        public string DocPath { get; set; } = "";
+        public string UserEmail { get; set; }
+        public string Name { get; set; }
+        public string Email { get; set; }
+        public string BirthDate { get; set; }
+        public string Education { get; set; }
+        public string DocPath { get; set; }
     }
 }

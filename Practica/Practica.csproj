@@ -45,6 +45,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -121,12 +127,23 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Data\DataContext.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Doc.cs" />
+    <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Client\.gitignore" />
+    <Content Include="Client\e2e\protractor.conf.js" />
+    <Content Include="Client\src\app\app.component.css" />
+    <Content Include="Client\src\app\app.component.html" />
+    <Content Include="Client\src\favicon.ico" />
+    <Content Include="Client\src\index.html" />
+    <Content Include="Client\src\karma.conf.js" />
+    <Content Include="Client\src\styles.css" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
     <Content Include="Content\bootstrap-grid.rtl.css" />
@@ -143,6 +160,16 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
+    <TypeScriptCompile Include="Client\e2e\src\app.e2e-spec.ts" />
+    <TypeScriptCompile Include="Client\e2e\src\app.po.ts" />
+    <TypeScriptCompile Include="Client\src\app\app-routing.module.ts" />
+    <TypeScriptCompile Include="Client\src\app\app.component.ts" />
+    <TypeScriptCompile Include="Client\src\app\app.module.ts" />
+    <TypeScriptCompile Include="Client\src\environments\environment.prod.ts" />
+    <TypeScriptCompile Include="Client\src\environments\environment.ts" />
+    <TypeScriptCompile Include="Client\src\main.ts" />
+    <TypeScriptCompile Include="Client\src\polyfills.ts" />
+    <TypeScriptCompile Include="Client\src\test.ts" />
     <TypeScriptCompile Include="Content\scripts\home.ts" />
     <TypeScriptCompile Include="Content\scripts\login.ts" />
     <Content Include="Content\styles\home.css" />
@@ -156,6 +183,19 @@
     <Content Include="Scripts\bootstrap.esm.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Client\src\assets\.gitkeep" />
+    <Content Include="Client\src\browserslist" />
+    <Content Include="Client\src\tsconfig.app.json" />
+    <Content Include="Client\src\tsconfig.spec.json" />
+    <Content Include="Client\src\tslint.json" />
+    <Content Include="Client\.editorconfig" />
+    <Content Include="Client\angular.json" />
+    <Content Include="Client\package-lock.json" />
+    <Content Include="Client\package.json" />
+    <Content Include="Client\README.md" />
+    <Content Include="Client\tsconfig.json" />
+    <Content Include="Client\tslint.json" />
+    <Content Include="Client\e2e\tsconfig.e2e.json" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -185,7 +225,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />
