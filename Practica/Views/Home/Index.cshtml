@@ -16,7 +16,7 @@
                             <h2 class="fw-bold mb-2 text-uppercase">Registro de documento</h2>
                             <p class="text-white-50 mb-5">Porfavor llene el formulario</p>
 
-                            <form [formGroup]="registerDocForm" (ngSubmit)="registerDoc()">
+                            <form [formGroup] ="registerDocForm" (ngSubmit)="registerDoc()">
 
                                 <div class="form-outline form-white mb-4">
                                     <input formControlName="Nombre" type="text" id="Nombre" name="Nombre" class="form-control form-control-lg" (blur)="requiredValidator($event);" />

@@ -144,6 +144,7 @@
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
     <TypeScriptCompile Include="Content\scripts\home.ts" />
+    <TypeScriptCompile Include="Content\scripts\login.ts" />
     <Content Include="Content\styles\home.css" />
     <Content Include="Content\styles\login.css" />
     <Content Include="favicon.ico" />
