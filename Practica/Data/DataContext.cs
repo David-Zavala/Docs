@@ -20,7 +20,10 @@ namespace Practica.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<User>().HasKey(u => u.Email).
+            modelBuilder.Entity<User>()
+                .HasKey(u => u.Email)
+                .HasMany(u => u.Docs)
+                .WithRequired(u => u.User);
         }
     }
 }
