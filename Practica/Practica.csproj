@@ -175,6 +175,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AngularDataController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Data\DataContext.cs" />
     <Compile Include="Global.asax.cs">
@@ -196,6 +197,8 @@
     <Content Include="Client\e2e\protractor.conf.js" />
     <Content Include="Client\src\app\app.component.css" />
     <Content Include="Client\src\app\app.component.html" />
+    <Content Include="Client\src\app\login\login.component.css" />
+    <Content Include="Client\src\app\login\login.component.html" />
     <Content Include="Client\src\favicon.ico" />
     <Content Include="Client\src\index.html" />
     <Content Include="Client\src\karma.conf.js" />
@@ -221,9 +224,11 @@
     <TypeScriptCompile Include="Client\e2e\src\app.po.ts" />
     <TypeScriptCompile Include="Client\src\app\app.component.ts" />
     <TypeScriptCompile Include="Client\src\app\app.module.ts" />
-    <TypeScriptCompile Include="Client\src\app\shared\api.service.ts" />
-    <TypeScriptCompile Include="Client\src\app\shared\Doc.ts" />
-    <TypeScriptCompile Include="Client\src\app\shared\User.ts" />
+    <TypeScriptCompile Include="Client\src\app\login\login.component.ts" />
+    <TypeScriptCompile Include="Client\src\app\_services\api.service.ts" />
+    <TypeScriptCompile Include="Client\src\app\_data\Doc.ts" />
+    <TypeScriptCompile Include="Client\src\app\_data\UserLogin.ts" />
+    <TypeScriptCompile Include="Client\src\app\_data\User.ts" />
     <TypeScriptCompile Include="Client\src\environments\environment.prod.ts" />
     <TypeScriptCompile Include="Client\src\environments\environment.ts" />
     <TypeScriptCompile Include="Client\src\main.ts" />
@@ -280,7 +285,7 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Login\login.cshtml" />
+    <Content Include="Views\Login\Login.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
