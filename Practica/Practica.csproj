@@ -1,6 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="packages\Microsoft.TypeScript.MSBuild.5.4.2\build\Microsoft.TypeScript.MSBuild.props" Condition="Exists('packages\Microsoft.TypeScript.MSBuild.5.4.2\build\Microsoft.TypeScript.MSBuild.props')" />
   <Import Project="packages\EntityFramework.6.4.4\build\EntityFramework.props" Condition="Exists('packages\EntityFramework.6.4.4\build\EntityFramework.props')" />
   <Import Project="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
@@ -173,7 +172,6 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\AngularDataController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
@@ -193,16 +191,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Client\.gitignore" />
-    <Content Include="Client\e2e\protractor.conf.js" />
-    <Content Include="Client\src\app\app.component.css" />
-    <Content Include="Client\src\app\app.component.html" />
-    <Content Include="Client\src\app\login\login.component.css" />
-    <Content Include="Client\src\app\login\login.component.html" />
-    <Content Include="Client\src\favicon.ico" />
-    <Content Include="Client\src\index.html" />
-    <Content Include="Client\src\karma.conf.js" />
-    <Content Include="Client\src\styles.css" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
     <Content Include="Content\bootstrap-grid.rtl.css" />
@@ -219,23 +207,9 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
-    <Content Include="Views\AngularData\Index.cshtml" />
-    <TypeScriptCompile Include="Client\e2e\src\app.e2e-spec.ts" />
-    <TypeScriptCompile Include="Client\e2e\src\app.po.ts" />
-    <TypeScriptCompile Include="Client\src\app\app.component.ts" />
-    <TypeScriptCompile Include="Client\src\app\app.module.ts" />
-    <TypeScriptCompile Include="Client\src\app\login\login.component.ts" />
-    <TypeScriptCompile Include="Client\src\app\_services\api.service.ts" />
-    <TypeScriptCompile Include="Client\src\app\_data\Doc.ts" />
-    <TypeScriptCompile Include="Client\src\app\_data\UserLogin.ts" />
-    <TypeScriptCompile Include="Client\src\app\_data\User.ts" />
-    <TypeScriptCompile Include="Client\src\environments\environment.prod.ts" />
-    <TypeScriptCompile Include="Client\src\environments\environment.ts" />
-    <TypeScriptCompile Include="Client\src\main.ts" />
-    <TypeScriptCompile Include="Client\src\polyfills.ts" />
-    <TypeScriptCompile Include="Client\src\test.ts" />
-    <TypeScriptCompile Include="Content\scripts\home.ts" />
-    <TypeScriptCompile Include="Content\scripts\login.ts" />
+    <Content Include="Content\scripts\login.js" />
+    <Content Include="Views\Shared\_LayoutLogin.cshtml" />
+    <Content Include="tsconfig.json" />
     <Content Include="Content\styles\home.css" />
     <Content Include="Content\styles\login.css" />
     <Content Include="favicon.ico" />
@@ -247,19 +221,6 @@
     <Content Include="Scripts\bootstrap.esm.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="Client\src\assets\.gitkeep" />
-    <Content Include="Client\src\browserslist" />
-    <Content Include="Client\src\tsconfig.app.json" />
-    <Content Include="Client\src\tsconfig.spec.json" />
-    <Content Include="Client\src\tslint.json" />
-    <Content Include="Client\.editorconfig" />
-    <Content Include="Client\angular.json" />
-    <Content Include="Client\package-lock.json" />
-    <Content Include="Client\package.json" />
-    <Content Include="Client\README.md" />
-    <Content Include="Client\tsconfig.json" />
-    <Content Include="Client\tslint.json" />
-    <Content Include="Client\e2e\tsconfig.e2e.json" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -281,9 +242,7 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
+    <Content Include="Views\Shared\_LayoutHome.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Login\Login.cshtml" />
   </ItemGroup>
@@ -362,11 +321,8 @@
     <Error Condition="!Exists('packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
     <Error Condition="!Exists('packages\EntityFramework.6.4.4\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\EntityFramework.6.4.4\build\EntityFramework.props'))" />
     <Error Condition="!Exists('packages\EntityFramework.6.4.4\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\EntityFramework.6.4.4\build\EntityFramework.targets'))" />
-    <Error Condition="!Exists('packages\Microsoft.TypeScript.MSBuild.5.4.2\build\Microsoft.TypeScript.MSBuild.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.TypeScript.MSBuild.5.4.2\build\Microsoft.TypeScript.MSBuild.props'))" />
-    <Error Condition="!Exists('packages\Microsoft.TypeScript.MSBuild.5.4.2\build\Microsoft.TypeScript.MSBuild.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.TypeScript.MSBuild.5.4.2\build\Microsoft.TypeScript.MSBuild.targets'))" />
   </Target>
   <Import Project="packages\EntityFramework.6.4.4\build\EntityFramework.targets" Condition="Exists('packages\EntityFramework.6.4.4\build\EntityFramework.targets')" />
-  <Import Project="packages\Microsoft.TypeScript.MSBuild.5.4.2\build\Microsoft.TypeScript.MSBuild.targets" Condition="Exists('packages\Microsoft.TypeScript.MSBuild.5.4.2\build\Microsoft.TypeScript.MSBuild.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

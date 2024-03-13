@@ -27,17 +27,17 @@ namespace Practica
                       "~/Content/site.css"));
 
             // Angular bundles
-            bundles.Add(new ScriptBundle("~/bundles/Angular")
-              .Include(
-                "~/bundles/AngularOutput/inline.*",
-                "~/bundles/AngularOutput/polyfills.*",
-                "~/bundles/AngularOutput/scripts.*",
-                "~/bundles/AngularOutput/vendor.*",
-                "~/bundles/AngularOutput/runtime.*",
-                "~/bundles/AngularOutput/main.*"));
+            //bundles.Add(new ScriptBundle("~/bundles/Angular")
+            //  .Include(
+            //    "~/bundles/AngularOutput/inline.*",
+            //    "~/bundles/AngularOutput/polyfills.*",
+            //    "~/bundles/AngularOutput/scripts.*",
+            //    "~/bundles/AngularOutput/vendor.*",
+            //    "~/bundles/AngularOutput/runtime.*",
+            //    "~/bundles/AngularOutput/main.*"));
 
-            bundles.Add(new StyleBundle("~/Content/Angular")
-              .Include("~/bundles/AngularOutput/styles.*"));
+            //bundles.Add(new StyleBundle("~/Content/Angular")
+            //  .Include("~/bundles/AngularOutput/styles.*"));
         }
     }
 }

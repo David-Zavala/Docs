@@ -8,7 +8,7 @@ namespace Practica.Controllers
 {
     public class LoginController : Controller
     {
-        // GET: Login
+        // GET: Index
         public ActionResult Login()
         {
             return View();

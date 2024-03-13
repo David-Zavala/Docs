@@ -1,4 +1,5 @@
 ﻿using Practica.Data;
+using Practica.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,21 +12,20 @@ namespace Practica.Controllers
     {
         public ActionResult Index()
         {
-            return View();
-        }
+            var openSession = Session["JWTToken"]?.ToString();
+            var tokenUsername = Session["LogedIn"]?.ToString();
 
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
+            var username = "";
+            if (openSession != null) username = Authentication.ValidateToken(openSession);
 
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
+            if (username != "" && username == tokenUsername)
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Login","Login");
+            }
         }
     }
 }
