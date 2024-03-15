@@ -1,4 +1,4 @@
-﻿using Microsoft.Ajax.Utilities;
+﻿ using Microsoft.Ajax.Utilities;
 using Practica.Models;
 using System;
 using System.Configuration;
@@ -60,23 +60,19 @@ namespace Practica.Controllers
         [HttpGet]
         public JsonResult CheckEmail(string email)
         {
-            JsonResult error = Json(new { isValid = false, errorMessage = "El correo electrónico no es válido" }, JsonRequestBehavior.AllowGet);
+            JsonResult error = Json(new { isValid = false, errorMessage = $"El correo electrónico no es válido" }, JsonRequestBehavior.AllowGet);
             
-            string emailRegexString = @"/^[^\s@]+@[^\s@]+\.[^\s@]+$/";
+            string emailRegexString = @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]+$";
             RegexStringValidator emailRegex = new RegexStringValidator(emailRegexString);
             try { emailRegex.Validate(email); }
             catch (ArgumentException) { return error; }
 
-            string noStartEndPeriosRegexString = @"/^(?!.*\.\.)(?!.*\.$)[^\s@]+@[^\s@]+\.[^\s@]+$/";
-            RegexStringValidator noStartEndPeriosRegex = new RegexStringValidator(noStartEndPeriosRegexString);
-            try { noStartEndPeriosRegex.Validate(email); }
-            catch (ArgumentException) { return error; }
-
-            if (email.Split('@')[0].Length > 64) return error;
+            string localPart = email.Split('@')[0];
+            if (localPart.Length > 64 || localPart[0] == '.' || localPart[localPart.Length-1] == '.') return error;
 
             if (email.Length > 254) return error;
 
-            return Json(new { isValid = true}, JsonRequestBehavior.AllowGet);
+            return Json(new { isValid = true }, JsonRequestBehavior.AllowGet);
         }
     }
 }

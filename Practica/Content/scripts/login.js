@@ -1,11 +1,10 @@
-﻿var validations = { Email:0 , Password:0 };
+﻿var validations = { Email:false , Password:false };
 
-function checkValidationMessages() {
-    $('#validation-summary').find(':empty').hide();
-    $('#validation-summary').not(':empty').show();
-
-    $('.field-validation-error').find(':empty').hide();
-    $('.field-validation-error').not(':empty').show();
+function checkLoginButton() {
+    if (validations.Email && validations.Password)
+        $('#LoginButton').prop('disabled', false);
+    else
+        $('#LoginButton').prop('disabled', true);
 }
 $(document).ready(function () {
 
@@ -17,26 +16,34 @@ $(document).ready(function () {
             type: 'GET',
             data: { email: email },
             success: function (response) {
-                console.log(response);
                 if (response.isValid) {
-                    $('#Email-error').text(null);
-                    console.log("Valido :)");
+                    $('.Email-error-message').text("");
+                    $('.Email-error-message').hide();
+                    $('.Email-error-message').css()
+                    validations.Email = true;
                 }
                 else {
-                    $('#Email-error').text(response.errorMessage);
-                    console.log("Invalido :(");
+                    $('.Email-error-message').text(response.errorMessage);
+                    $('.Email-error-message').show();
+                    validations.Email = false;
                 }
             }
         });
-
-        checkValidationMessages();
+        checkLoginButton();
     });
     $('#Password').blur(function () {
         var password = $(this).val();
-        if (password != null | "")
-            $('#Password-error').text(null);
-        else
-            $('#Password-error').text(response.errorMessage);
+
+        if (password != "") {
+            $('.Password-error-message').text(null);
+            $('.Password-error-message').hide();
+            validations.Password = true;
+        }
+        else {
+            $('.Password-error-message').text("Debes ingresar la contraseña");
+            $('.Password-error-message').show();
+            validations.Password = false;
+        }
         //$.ajax({
         //    url: '/Account/CheckPassword',
         //    type: 'GET',
@@ -50,7 +57,6 @@ $(document).ready(function () {
         //        }
         //    }
         //});
-
-        checkValidationMessages();
+        checkLoginButton();
     });
 });
