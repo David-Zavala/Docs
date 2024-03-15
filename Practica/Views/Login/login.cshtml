@@ -3,7 +3,7 @@
     Layout = "~/Views/Shared/_LayoutLogin.cshtml";
 }
 
-@model Practica.Models.Login
+@model Practica.Models.FormModels.Login
 
 @section styles {
     <link href="~/Content/styles/login.css" rel="stylesheet" />
@@ -21,21 +21,21 @@
                             <h2 class="fw-bold mb-2 text-uppercase">Inicia Sesión</h2>
                             <p class="text-white-50 mb-5">Porfavor ingrese su correo y contraseña!</p>
 
-                            @using (Html.BeginForm("Login", "AccountController", FormMethod.Post, new { id = "loginForm" }))
+                            @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { id = "loginForm" }))
                             {
 
                                 <div class="form-outline form-white mb-4">
                                     <div class="alert alert-danger mt-2 Email-error-message" style="display: none;">
                                     @Html.ValidationMessageFor(m => m.Email, "", new { @class = "Email-error-message", style = "display: none;" })</div>
-                                    @Html.EditorFor(m => m.Email, new { @class = "form-control form-control-lg" })<br />
-                                    @Html.LabelFor(m => m.Email, new { @class = "form-label" })*
+                                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control form-control-lg" })
+                                    @Html.LabelFor(m => m.Email, "Correo Electrónico*", new { @class = "form-label" })
                                 </div>
 
                                 <div class="form-outline form-white mb-4">
                                     <div class="alert alert-danger mt-2 Password-error-message" style="display: none;">
                                     @Html.ValidationMessageFor(m => m.Password, "", new { @class = "Password-error-message", style = "display: none;" })</div>
-                                    @Html.EditorFor(m => m.Password)<br />
-                                    @Html.LabelFor(m => m.Password, new { @class = "form-label" })*
+                                    @Html.PasswordFor(m => m.Password, new { @class = "form-control form-control-lg" })
+                                    @Html.LabelFor(m => m.Password, "Contraseña*", new { @class = "form-label" })
 
                                     <p class="small mb-5 pb-lg-2"><a class="text-white-50" href="/">Olvidaste tu contraseña?</a></p>
                                 </div>

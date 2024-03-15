@@ -1,10 +1,9 @@
 ﻿namespace Practica.Migrations
 {
     using System;
-    using System.Data.Entity;
     using System.Data.Entity.Migrations;
-    using System.Linq;
-    using Practica.Models;
+    using Practica.Data.Models;
+    using Practica.Data;
 
     internal sealed class Configuration : DbMigrationsConfiguration<Practica.Data.DataContext>
     {
@@ -13,13 +12,13 @@
             AutomaticMigrationsEnabled = false;
         }
 
-        protected override void Seed(Practica.Data.DataContext context)
+        protected override void Seed(DataContext context)
         {
             User user1 = new User { Email = "d@d.com", Password = "ddd" , Name = "David Zavala", BirthDate = DateTime.Parse("2002-03-06") };
             User user2 = new User { Email = "o@o.com", Password = "ooo" , Name = "Oscar Leija", BirthDate = DateTime.Parse("2001-03-06") };
-            Doc doc1 = new Doc { User = user1, Name = "ArchivoEjem1", Email = "ejem1@e.com", BirthDate = DateTime.Parse("2002-03-06"), Education = "Carrera en progreso", DocPath = "../SaveDocs/archivo1.txt" };
-            Doc doc2 = new Doc { User = user1, Name = "ArchivoEjem2", Email = "ejem2@e.com", BirthDate = DateTime.Parse("2002-03-06"), Education = "Carrera en progreso", DocPath = "../SaveDocs/archivo2.txt" };
-            Doc doc3 = new Doc { User = user2, Name = "ArchivoEjem3", Email = "ejem3@e.com", BirthDate = DateTime.Parse("2001-03-06"), Education = "Carrera en progreso", DocPath = "../SaveDocs/archivo3.txt" };
+            Doc doc1 = new Doc { User = user1, Name = "ArchivoEjem1", Email = "ejem1@e.com", BirthDate = DateTime.Parse("2002-03-06"), Age = GetAge("2002-03-06"), Education = "Carrera en progreso", DocPath = "../SaveDocs/archivo1.txt", LastUpdate = GetDateTimeNow() };
+            Doc doc2 = new Doc { User = user1, Name = "ArchivoEjem2", Email = "ejem2@e.com", BirthDate = DateTime.Parse("2000-12-06"), Age = GetAge("2000-12-06"), Education = "Carrera en progreso", DocPath = "../SaveDocs/archivo2.txt", LastUpdate = GetDateTimeNow() };
+            Doc doc3 = new Doc { User = user2, Name = "ArchivoEjem3", Email = "ejem3@e.com", BirthDate = DateTime.Parse("2001-03-06"), Age = GetAge("2001-03-06"), Education = "Carrera en progreso", DocPath = "../SaveDocs/archivo3.txt", LastUpdate = GetDateTimeNow() };
             user1.Docs.Add(doc1);
             user1.Docs.Add(doc2);
             user2.Docs.Add(doc3);
@@ -38,6 +37,33 @@
 
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method
             //  to avoid creating duplicate seed data.
+        }
+
+        private int GetAge(string birthDate)
+        {
+            string[] yearMonthDay = birthDate.Split('-');
+            int year = Int32.TryParse(yearMonthDay[0], out _)? Int32.Parse(yearMonthDay[0]) : -1;
+            int month = Int32.TryParse(yearMonthDay[1], out _) ? Int32.Parse(yearMonthDay[1]) : -1;
+            int day = Int32.TryParse(yearMonthDay[2], out _) ? Int32.Parse(yearMonthDay[2]) : -1; ;
+            
+            string[] yearMonthDayNow = DateTime.Now.ToString().Substring(0,10).Split('/'); //DateTime.Now format: DD/MM/YYYY
+            int yearNow = Int32.TryParse(yearMonthDayNow[2], out _) ? Int32.Parse(yearMonthDayNow[2]) : -1;
+            int monthNow = Int32.TryParse(yearMonthDayNow[1], out _) ? Int32.Parse(yearMonthDayNow[1]) : -1;
+            int dayNow = Int32.TryParse(yearMonthDayNow[0], out _) ? Int32.Parse(yearMonthDayNow[0]) : -1;
+
+            int age = yearNow - year;
+            if (monthNow <= month)
+                if (dayNow < day)
+                    age--;
+
+            return age;
+        }
+
+        private DateTime GetDateTimeNow()
+        {
+            string[] now = DateTime.Now.ToString().Substring(0,10).Split('/');
+            string newFormat = now[2] + '-' + now[1] + '-' + now[0];
+            return DateTime.Parse(newFormat);
         }
     }
 }

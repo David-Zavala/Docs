@@ -27,13 +27,13 @@ namespace Practica.Models
                 claims.Add(new Claim(ClaimTypes.Role, role));
             });
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Convert.ToString(ConfigurationManager.AppSettings["config:JwtKey"])));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Convert.ToString(ConfigurationManager.AppSettings["JWT_SECRET_KEY"])));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-            var expires = DateTime.Now.AddDays(Convert.ToDouble(Convert.ToString(ConfigurationManager.AppSettings["config:JwtExpireDays"])));
+            var expires = DateTime.Now.AddDays(Convert.ToDouble(Convert.ToString(ConfigurationManager.AppSettings["JWT_EXPIRE_DAYS"])));
 
             var token = new JwtSecurityToken(
-                Convert.ToString(ConfigurationManager.AppSettings["config:JwtIssuer"]),
-                Convert.ToString(ConfigurationManager.AppSettings["config:JwtAudience"]),
+                Convert.ToString(ConfigurationManager.AppSettings["JWT_ISSUER_TOKEN"]),
+                Convert.ToString(ConfigurationManager.AppSettings["JWT_AUDIENCE_TOKEN"]),
                 claims,
                 expires: expires,
                 signingCredentials: creds

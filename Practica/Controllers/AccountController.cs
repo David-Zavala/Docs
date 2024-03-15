@@ -1,20 +1,20 @@
-﻿ using Microsoft.Ajax.Utilities;
+﻿using Practica.Data.Respositories;
 using Practica.Models;
+using Practica.Models.FormModels;
 using System;
 using System.Configuration;
-using System.Linq;
 using System.Threading.Tasks;
-using System.Web.Helpers;
 using System.Web.Mvc;
 
 namespace Practica.Controllers
 {
     public class AccountController : Controller
     {
+        UsersRepository usersRepository = new UsersRepository();
         // POST: /account/login
         [HttpPost]
         [AllowAnonymous]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(Login viewModel)
         {
             try
@@ -22,18 +22,18 @@ namespace Practica.Controllers
                 if (!ModelState.IsValid)
                     return View("Login", "Login", viewModel);
 
-
-                string encryptedPwd = viewModel.Password;
-                var userPassword = Convert.ToString(ConfigurationManager.AppSettings["config:Password"]);
-                var userName = Convert.ToString(ConfigurationManager.AppSettings["config:Username"]);
-                if (encryptedPwd.Equals(userPassword) && viewModel.Email.Equals(userName))
+                UserToReturn existingUser = await usersRepository.CheckPassword(viewModel);
+                if (existingUser != null)
                 {
-                    var roles = new string[] { "User" };
-                    var jwtSecurityToken = Authentication.GenerateJwtToken(userName, roles.ToList());
-                    Session["LoginedIn"] = userName;
-                    var validUserName = Authentication.ValidateToken(jwtSecurityToken);
-                    Session["JWTToken"] = jwtSecurityToken;
-                    return RedirectToAction("Index", "Home", new { token = jwtSecurityToken });
+                    //var roles = new string[] { "User" , "Admin" };
+                    //var jwtSecurityToken = Authentication.GenerateJwtToken(existingUser.Name, roles.ToList());
+                    //Session["LoggedIn"] = existingUser.Name;
+                    //var validUserName = Authentication.ValidateToken(jwtSecurityToken);
+                    //Session["JWTToken"] = jwtSecurityToken;
+                    //return RedirectToAction("Index", "Home", new { token = jwtSecurityToken });
+
+                    Session["LoggedIn"] = existingUser.Name;
+                    return RedirectToAction("Index", "Home");
 
                 }
 
@@ -44,7 +44,7 @@ namespace Practica.Controllers
             {
                 ModelState.AddModelError("", "Invalid username or password.");
             }
-            return View("Login", "Login",viewModel);
+            return RedirectToAction("Login", "Login",viewModel);
         }
 
         [HttpGet]

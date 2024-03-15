@@ -7,11 +7,13 @@
     background: linear-gradient(to right, rgb(129, 129, 9), rgb(196, 196, 16), rgb(129, 129, 9));
 }
 
-.text-box {
-    min-height: calc(1.5rem + 1rem + 2px);
-    padding: 0.5rem 1rem;
-    font-size: 1.25rem;
-    border-radius: 0.5rem;
-    border: none; 
-    outline: none;
+.form-outline {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-items:baseline;
+}
+
+.form-control {
+    font-size:15px;
 }

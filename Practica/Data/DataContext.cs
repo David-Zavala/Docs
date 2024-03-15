@@ -1,9 +1,5 @@
-﻿using Practica.Models;
-using System;
-using System.Collections.Generic;
+﻿using Practica.Data.Models;
 using System.Data.Entity;
-using System.Linq;
-using System.Web;
 
 namespace Practica.Data
 {

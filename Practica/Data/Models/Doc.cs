@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Web;
 
-namespace Practica.Models
+namespace Practica.Data.Models
 {
     public class Doc
     {
@@ -23,8 +20,12 @@ namespace Practica.Models
         [Column(TypeName = "Date")]
         public DateTime BirthDate { get; set; }
         [Required]
+        public int Age { get; set; }
+        [Required]
         public string Education { get; set; }
         [Required]
         public string DocPath { get; set; }
+        [Column(TypeName = "Date")]
+        public DateTime LastUpdate { get; set; }
     }
 }
