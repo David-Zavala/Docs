@@ -23,7 +23,8 @@ namespace Practica.Models.FormModels
         public int Day { get; set; }
         // BirthDate inputs
         
-        public string Education { get; set; }
+        public string EducationLevel { get; set; }
+        public string EducationProgress { get; set; }
         [Required]
         public string DocPath { get; set; }
     }

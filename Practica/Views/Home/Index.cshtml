@@ -24,7 +24,7 @@
                             @using (Html.BeginForm("Login", "Doc", FormMethod.Post, new { id = "loginForm" }))
                             {
 
-                                <div class="form-outline form-white mb-4">
+                                <div class="form-outline form-white mb-4 custom-align">
                                     <div class="alert alert-danger mt-2 Name-error-message" style="display: none;">
                                         @Html.ValidationMessageFor(m => m.Name, "", new { @class = "Name-error-message", style = "display: none;" })
                                     </div>
@@ -32,7 +32,7 @@
                                     @Html.LabelFor(m => m.Name, "Nombre*", new { @class = "form-label" })
                                 </div>
 
-                                <div class="form-outline form-white mb-4">
+                                <div class="form-outline form-white mb-4 custom-align">
                                     <div class="alert alert-danger mt-2 Email-error-message" style="display: none;">
                                         @Html.ValidationMessageFor(m => m.Email, "", new { @class = "Email-error-message", style = "display: none;" })
                                     </div>
@@ -40,70 +40,70 @@
                                     @Html.LabelFor(m => m.Email, "Correo Electrónico*", new { @class = "form-label" })
                                 </div>
 
-                                <div class="disprow form-outline form-white mb-4">
+                                <div class="disprow form-outline form-white mb-4 custom-align">
                                     <div>
                                         <div class="date-input">
                                             @Html.TextBoxFor(m => m.Year, new
-                                       {
-                                           @class = "long form-control form-control-lg",
-                                           type = "number",
-                                           min = "0000",
-                                           max = "2024",
-                                           inputmode = "numeric",
-                                           maxlength = "4",
-                                           placeholder = "YYYY"
-                                       })
+                                           {
+                                               @class = "long form-control form-control-lg",
+                                               type = "number",
+                                               min = "0000",
+                                               max = "2024",
+                                               inputmode = "numeric",
+                                               maxlength = "4",
+                                               placeholder = "YYYY"
+                                           })
                                             <span>/</span>
                                             @Html.TextBoxFor(m => m.Year, new
-                                       {
-                                           @class = "short form-control form-control-lg",
-                                           type = "number",
-                                           min = "01",
-                                           max = "12",
-                                           inputmode = "numeric",
-                                           maxlength = "2",
-                                           placeholder = "MM"
-                                       })
+                                           {
+                                               @class = "short form-control form-control-lg",
+                                               type = "number",
+                                               min = "01",
+                                               max = "12",
+                                               inputmode = "numeric",
+                                               maxlength = "2",
+                                               placeholder = "MM"
+                                           })
                                             <span>/</span>
                                             @Html.TextBoxFor(m => m.Year, new
-                                       {
-                                           @class = "short form-control form-control-lg",
-                                           type = "number",
-                                           min = "01",
-                                           max = "31",
-                                           inputmode = "numeric",
-                                           maxlength = "2",
-                                           placeholder = "DD"
-                                       })
+                                           {
+                                               @class = "short form-control form-control-lg",
+                                               type = "number",
+                                               min = "01",
+                                               max = "31",
+                                               inputmode = "numeric",
+                                               maxlength = "2",
+                                               placeholder = "DD"
+                                           })
                                         </div>
                                         <label class="form-label" for="date-input">Fecha de nacimiento</label>
-                                    </div>
-                                    <div>
-                                        <input formControlName="Edad" name="Edad" class="long form-control form-control-lg" type="number" min="1" inputmode="numeric" maxlength="2" id="Edad" name="Edad" (blur)="checkLimit($event);" #ageInput />
-                                        <label class="form-label" for="Edad">Edad</label>
-                                    </div>
+                                    </div> @* Note: The Age is obtained from a method in the home.js. The same way it was obtained in Configuration.cs*@
                                 </div>
-                                <div class="disprow form-outline form-white mb-4">
+                                <div class="disprow form-outline form-white mb-4 education-container">
                                     <div class="selectContainer">
-                                        <div class="alert alert-danger mt-2" [hidden]="!educationErrorMessage[0]">{{educationErrorMessage[0]}}</div>
-                                        <select formControlName="EducacionL" id="EducacionL" name="EducacionL" class="form-control form-control-lg" (blur)="selectValidator($event, 0)">
-                                            <option value="-1"></option>
-                                            <option value="3">Maestria</option>
-                                            <option value="2">Carrera</option>
-                                            <option value="1">Preparatoria</option>
-                                            <option value="0">Educación básica</option>
-                                        </select>
-                                        <label class="form-label" for="Educacion">Educacion</label>
+                                        <div class="alert alert-danger mt-2 Email-error-message" style="display: none;">
+                                            @Html.ValidationMessageFor(m => m.EducationLevel, "", new { @class = "EducationLevel-error-message", style = "display: none;" })
+                                        </div>
+                                        @Html.DropDownListFor(m => m.EducationLevel, new SelectList(new List<SelectListItem>{ 
+                                            new SelectListItem { Text = "Selecciona una opción", Value = "0" },
+                                            new SelectListItem { Text = "Maestría", Value = "Maestria" },
+                                            new SelectListItem { Text = "Carrera", Value = "Carrera" },
+                                            new SelectListItem { Text = "Preparatoria", Value = "Preparatoria" },
+                                            new SelectListItem { Text = "Educación básica", Value = "Educacion basica" }
+                                        }, "Value", "Text"), new { @class = "form-control form-control-lg" })
+                                        @Html.LabelFor(m => m.EducationLevel, "Nivel educativo*", new { @class = "form-label" })
                                     </div>
                                     <div class="selectContainer">
-                                        <div class="alert alert-danger mt-2" [hidden]="!educationErrorMessage[1]">{{educationErrorMessage[1]}}</div>
-                                        <select formControlName="EducacionP" id="EducacionP" name="EducacionP" class="form-control form-control-lg" (blur)="selectValidator($event, 1)">
-                                            <option value="-1"></option>
-                                            <option value="2">Terminada</option>
-                                            <option value="1">En progreso</option>
-                                            <option value="0">No terminada</option>
-                                        </select>
-                                        <label class="form-label" for="Educacion">Progreso</label>
+                                        <div class="alert alert-danger mt-2 Email-error-message" style="display: none;">
+                                            @Html.ValidationMessageFor(m => m.EducationProgress, "", new { @class = "EducationProgress-error-message", style = "display: none;" })
+                                        </div>
+                                        @Html.DropDownListFor(m => m.EducationProgress, new SelectList(new List<SelectListItem>{
+                                            new SelectListItem { Text = "", Value = "0" },
+                                            new SelectListItem { Text = "Terminada", Value = "Terminada" },
+                                            new SelectListItem { Text = "En progreso", Value = "En progreso" },
+                                            new SelectListItem { Text = "No terminada", Value = "No terminada" }
+                                        }, "Value", "Text"), new { @class = "form-control form-control-lg" })
+                                        @Html.LabelFor(m => m.EducationProgress, "Progreso*", new { @class = "form-label" })
                                     </div>
                                 </div>
 
