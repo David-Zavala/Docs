@@ -55,6 +55,7 @@ input[type="number"] {
     font-size: 15px;
 }
 
-.education-container {
-    
+.SelectedDocText {
+    color:darkgray;
+    text-decoration:underline;
 }

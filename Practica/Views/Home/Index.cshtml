@@ -114,10 +114,9 @@
                                     <div class="alert alert-danger mt-2 Doc-error-message" style="display: none;">
                                         @Html.ValidationMessageFor(m => m.Doc, "", new { @class = "Doc-error-message", style = "display: none;" })
                                     </div>
-                                    @Html.TextBoxFor(model => model.Doc, new { type = "file", accept = ".jpg, .pdf" })<br />
+                                    @Html.TextBoxFor(model => model.Doc, new { @class = "SelectedDocText", type = "file", accept = ".jpg, .pdf" })<br />
                                     @Html.LabelFor(m => m.Doc, "Documento*", new { @class = "form-label" })<br />
                                     <input id="DeleteDoc" class="btn btn-outline-light btn-md px-5" type="button" value="Eliminar archivo" />
-                                    @*<a class="btn btn-outline-light" (click)="deleteDoc()">Eliminar Archivo</a>*@
                                 </div>
 
                                 <input id="RegisterDocButton" class="btn btn-outline-light btn-lg px-5" type="submit" value="Completar registro" disabled />
