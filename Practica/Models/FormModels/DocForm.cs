@@ -2,6 +2,7 @@
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using System.Web;
 
 namespace Practica.Models.FormModels
 {
@@ -26,6 +27,6 @@ namespace Practica.Models.FormModels
         public string EducationLevel { get; set; }
         public string EducationProgress { get; set; }
         [Required]
-        public string DocPath { get; set; }
+        public HttpPostedFileBase Doc { get; set; }
     }
 }

@@ -13,7 +13,7 @@ namespace Practica.Data.Respositories
 {
     public class UsersRepository : IUsersRepository
     {
-        private DataContext db = new DataContext();
+        private readonly DataContext db = new DataContext();
 
         async Task<ICollection<UserToReturn>> IUsersRepository.GetUsers()
         {
@@ -45,7 +45,7 @@ namespace Practica.Data.Respositories
             };
         }
 
-        public async Task<UserToReturn> CheckPassword(Login loginUser)
+        public async Task<UserToReturn> TryLogin(Login loginUser)
         {
             User registeredUser = await GetFullUserByEmail(loginUser.Email);
             

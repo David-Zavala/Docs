@@ -21,7 +21,7 @@
                             <h2 class="fw-bold mb-2 text-uppercase">Registro de documento</h2>
                             <p class="text-white-50 mb-5">Porfavor llene el formulario</p>
 
-                            @using (Html.BeginForm("Login", "Doc", FormMethod.Post, new { id = "loginForm" }))
+                            @using (Html.BeginForm("Register", "Doc", FormMethod.Post, new { id = "loginForm" }))
                             {
 
                                 <div class="form-outline form-white mb-4 custom-align">
@@ -41,6 +41,9 @@
                                 </div>
 
                                 <div class="disprow form-outline form-white mb-4 custom-align">
+                                    <div class="alert alert-danger mt-2 BirthDate-error-message" style="display: none;">
+                                        @Html.ValidationMessageFor(m => m.Year, "", new { @class = "BirthDate-error-message", style = "display: none;" })
+                                    </div>
                                     <div>
                                         <div class="date-input">
                                             @Html.TextBoxFor(m => m.Year, new
@@ -54,7 +57,7 @@
                                                placeholder = "YYYY"
                                            })
                                             <span>/</span>
-                                            @Html.TextBoxFor(m => m.Year, new
+                                            @Html.TextBoxFor(m => m.Month, new
                                            {
                                                @class = "short form-control form-control-lg",
                                                type = "number",
@@ -65,7 +68,7 @@
                                                placeholder = "MM"
                                            })
                                             <span>/</span>
-                                            @Html.TextBoxFor(m => m.Year, new
+                                            @Html.TextBoxFor(m => m.Day, new
                                            {
                                                @class = "short form-control form-control-lg",
                                                type = "number",
@@ -81,10 +84,10 @@
                                 </div>
                                 <div class="disprow form-outline form-white mb-4 education-container">
                                     <div class="selectContainer">
-                                        <div class="alert alert-danger mt-2 Email-error-message" style="display: none;">
+                                        <div class="alert alert-danger mt-2 EducationLevel-error-message" style="display: none;">
                                             @Html.ValidationMessageFor(m => m.EducationLevel, "", new { @class = "EducationLevel-error-message", style = "display: none;" })
                                         </div>
-                                        @Html.DropDownListFor(m => m.EducationLevel, new SelectList(new List<SelectListItem>{ 
+                                        @Html.DropDownListFor(m => m.EducationLevel, new SelectList(new List<SelectListItem>{
                                             new SelectListItem { Text = "Selecciona una opción", Value = "0" },
                                             new SelectListItem { Text = "Maestría", Value = "Maestria" },
                                             new SelectListItem { Text = "Carrera", Value = "Carrera" },
@@ -94,11 +97,11 @@
                                         @Html.LabelFor(m => m.EducationLevel, "Nivel educativo*", new { @class = "form-label" })
                                     </div>
                                     <div class="selectContainer">
-                                        <div class="alert alert-danger mt-2 Email-error-message" style="display: none;">
+                                        <div class="alert alert-danger mt-2 EducationProgress-error-message" style="display: none;">
                                             @Html.ValidationMessageFor(m => m.EducationProgress, "", new { @class = "EducationProgress-error-message", style = "display: none;" })
                                         </div>
                                         @Html.DropDownListFor(m => m.EducationProgress, new SelectList(new List<SelectListItem>{
-                                            new SelectListItem { Text = "", Value = "0" },
+                                            new SelectListItem { Text = "Selecciona una opción", Value = "0" },
                                             new SelectListItem { Text = "Terminada", Value = "Terminada" },
                                             new SelectListItem { Text = "En progreso", Value = "En progreso" },
                                             new SelectListItem { Text = "No terminada", Value = "No terminada" }
@@ -108,18 +111,20 @@
                                 </div>
 
                                 <div class="form-outline form-white mb-4">
-                                    <input formControlName="Documento" type="file" id="Documento" name="Documento" accept=".pdf,.jpg,.jpeg">
-                                    <label class="form-label" for="Documento">Sube un archivo PDF o JPG:</label>
-                                    <a class="btn btn-outline-light" (click)="deleteDoc()">Eliminar Archivo</a>
+                                    <div class="alert alert-danger mt-2 Doc-error-message" style="display: none;">
+                                        @Html.ValidationMessageFor(m => m.Doc, "", new { @class = "Doc-error-message", style = "display: none;" })
+                                    </div>
+                                    @Html.TextBoxFor(model => model.Doc, new { type = "file", accept = ".jpg, .pdf" })<br />
+                                    @Html.LabelFor(m => m.Doc, "Documento*", new { @class = "form-label" })<br />
+                                    <input id="DeleteDoc" class="btn btn-outline-light btn-md px-5" type="button" value="Eliminar archivo" />
+                                    @*<a class="btn btn-outline-light" (click)="deleteDoc()">Eliminar Archivo</a>*@
                                 </div>
 
-                                <div class="alert alert-danger mt-2" [hidden]="!registerDocErrorMessage">{{registerDocErrorMessage}}</div>
-
-                                <button [disabled]="registerDocForm.invalid" class="btn btn-outline-light btn-lg px-5" type="submit">Registrar</button>
+                                <input id="RegisterDocButton" class="btn btn-outline-light btn-lg px-5" type="submit" value="Completar registro" disabled />
 
                             }
 
-                            </div>
+                        </div>
 
                     </div>
                 </div>

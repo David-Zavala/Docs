@@ -7,55 +7,56 @@ function checkLoginButton() {
         $('#LoginButton').prop('disabled', true);
 }
 
-function validateEmailResponse(response) {
-    if (response.isValid) {
-        $('.Email-error-message').text("");
-        $('.Email-error-message').hide();
-        validations.Email = true;
-    }
-    else {
-        $('.Email-error-message').text(response.errorMessage);
-        $('.Email-error-message').show();
-        validations.Email = false;
-    }
+function validateEmail(email) {
+    $.ajax({
+        url: '/FormValidations/CheckEmail',
+        type: 'GET',
+        data: { email: email },
+        success: function (valid) {
+            if (valid) {
+                validations.Email = true;
+            }
+            else {
+                validations.Email = false;
+            }
+        }
+    });
 }
-
 function validatePassword(password) {
     if (password != "") {
-        $('.Password-error-message').text(null);
-        $('.Password-error-message').hide();
         validations.Password = true;
     }
     else {
-        $('.Password-error-message').text("Debes ingresar la contraseña");
-        $('.Password-error-message').show();
         validations.Password = false;
     }
 }
-
+function showOrHideMessage(item,validation,message) {
+    if (validation) {
+        item.text(null);
+        item.hide();
+        validations.Password = true;
+    }
+    else {
+        item.text(message);
+        item.show();
+        validations.Password = false;
+    }
+}
 $(document).ready(function () {
-    $('#Email').blur(function () {
+    $('#Email').on('input', function () {
         var email = $(this).val();
-        
-        $.ajax({
-            url: '/Account/CheckEmail',
-            type: 'GET',
-            data: { email: email },
-            success: function (response) {
-                validateEmailResponse(response);
-                checkLoginButton();
-            }
-        });
+        validateEmail(email);
+        checkLoginButton();
     });
-    $('#Password').blur(function () {
+    $('#Email').on('blur', function () {
+        showOrHideMessage($('.Email-error-message'), validations.Email, "El correo electrónico no es válido");
+    });
+    $('#Password').on('input', function () {
         var password = $(this).val();
         validatePassword(password);
         checkLoginButton();
     });
-    $('#Email').on("input", function() {
-        checkLoginButton();
-    });
-    $('#Password').on("input", function() {
-        checkLoginButton();
+    $('#Password').on('blur', function () {
+        showOrHideMessage($('.Password-error-message'), validations.Password, "Debes ingresar la contraseña");
     });
 });

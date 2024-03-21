@@ -22,7 +22,7 @@ namespace Practica.Controllers
                 if (!ModelState.IsValid)
                     return View("Login", "Login", viewModel);
 
-                UserToReturn existingUser = await usersRepository.CheckPassword(viewModel);
+                UserToReturn existingUser = await usersRepository.TryLogin(viewModel);
                 if (existingUser != null)
                 {
                     //var roles = new string[] { "User" , "Admin" };
@@ -49,30 +49,12 @@ namespace Practica.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public async Task<ActionResult> Logout()
         {
             Session.Abandon();
             Session.Clear();
-            return View("Login","Login");
-        }
-
-        [HttpGet]
-        public JsonResult CheckEmail(string email)
-        {
-            JsonResult error = Json(new { isValid = false, errorMessage = $"El correo electrónico no es válido" }, JsonRequestBehavior.AllowGet);
-            
-            string emailRegexString = @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]+$";
-            RegexStringValidator emailRegex = new RegexStringValidator(emailRegexString);
-            try { emailRegex.Validate(email); }
-            catch (ArgumentException) { return error; }
-
-            string localPart = email.Split('@')[0];
-            if (localPart.Length > 64 || localPart[0] == '.' || localPart[localPart.Length-1] == '.') return error;
-
-            if (email.Length > 254) return error;
-
-            return Json(new { isValid = true }, JsonRequestBehavior.AllowGet);
+            return RedirectToAction("Login","Login");
         }
     }
 }

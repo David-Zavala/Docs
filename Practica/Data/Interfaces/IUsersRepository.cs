@@ -14,6 +14,6 @@ namespace Practica.Data.Interfaces
         Task<UserToReturn> RegisterUser(User user);
         Task<UserToReturn> UpdateUser(string email);
         Task<ActionResult> DeleteUser(string email);
-        Task<UserToReturn> CheckPassword(Login loginUser);
+        Task<UserToReturn> TryLogin(Login loginUser);
     }
 }
