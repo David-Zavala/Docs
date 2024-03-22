@@ -1,4 +1,5 @@
 var validations = { Name: false, Email: false, Year: false, Month: false, Day: false, EducationLevel: false, EducationProgress: false, Doc: false };
+var DocFile = null;
 function showOrHideMessage(item, validation, message) {
     if (validation) {
         item.text(null);
@@ -175,6 +176,15 @@ $(document).ready(function () {
         checkRegisterButton();
     });
     $('#Doc').on('change', function () {
+        var file = $(this);
+        if (file.val() != "" || file.val() != null )
+            DocFile = file;
+        console.log("Este es file________")
+        console.log(file);
+        console.log(file.val());
+        console.log("Ahora DocFile________")
+        console.log(DocFile);
+        console.log(DocFile.val());
 
     });
 });
