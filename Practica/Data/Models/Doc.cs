@@ -8,14 +8,16 @@ namespace Practica.Data.Models
     {
         [Key]
         [Required]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        //[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public string Id { get; set; }
         [Required]
         public User User { get; set; }
         [Required]
         public string Name { get; set; }
         [Required]
         public string Email { get; set; }
+        [Required]
+        public string RegisteredEmail { get; set; }
         [Required]
         [Column(TypeName = "Date")]
         public DateTime BirthDate { get; set; }

@@ -11,6 +11,7 @@ namespace Practica.Data.Interfaces
     {
         Task<ICollection<UserToReturn>> GetUsers();
         Task<UserToReturn> GetUserByEmail(string email);
+        Task<User> GetUserForDoc(string email);
         Task<UserToReturn> RegisterUser(User user);
         Task<UserToReturn> UpdateUser(string email);
         Task<ActionResult> DeleteUser(string email);

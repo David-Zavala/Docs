@@ -13,6 +13,7 @@ function showOrHideMessage(item, validation, message) {
     }
 }
 function checkRegisterButton() {
+    console.log(validations);
     if (validations.Name && validations.Email && validations.Year && validations.Month && validations.Day && validations.EducationLevel && validations.EducationProgress && validations.Doc)
         $('#RegisterDocButton').prop('disabled', false);
     else
@@ -43,41 +44,46 @@ function validateEmail(email) {
 }
 function validateNumber(number, min, max, item) {
     numberObj = { Number: number, Min: min, Max: max };
-    console.log(numberObj);
-    console.log("ASDASDASDASDASD");
     $.ajax({
         url: '/FormValidations/CheckNumber',
         type: 'GET',
         data: { numberObj: numberObj },
         success: function (valid) {
+            console.log(item)
             switch (item) {
                 case "Y":
+                    console.log("Entro a Y")
                     if (valid) {
                         validations.Year = true;
                     }
                     else {
                         validations.Year = false;
                     }
+                    break;
                 case "M":
+                    console.log("Entro a M")
                     if (valid) {
                         validations.Month = true;
                     }
                     else {
                         validations.Month = false;
                     }
+                    break;
                 case "D":
+                    console.log("Entro a D")
                     if (valid) {
                         validations.Day = true;
                     }
                     else {
                         validations.Day = false;
                     }
+                    break;
             }
             
         }
     });
 }
-function validateNumberInput(input, nextInput, number, maxLength, max, min) {
+function validateFocusChange(input, nextInput, number, maxLength, max, min) {
     if (number.toString().length == maxLength) {
         if (number > max)
             input.val(max);
@@ -97,6 +103,25 @@ function validateEducationProgress(selectedValue) {
         validations.EducationProgress = false
     else
         validations.EducationProgress = true
+}
+function validateDoc(doc) {
+    var formData = new FormData();
+    formData.append('doc', doc);
+    $.ajax({
+        url: '/FormValidations/CheckDoc',
+        type: 'GET',
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function (valid) {
+            if (valid) {
+                validations.Doc = true;
+            }
+            else {
+                validations.Doc = false;
+            }
+        }
+    });
 }
 $(document).ready(function () {
     $('#Name').on('input', function () {
@@ -119,7 +144,7 @@ $(document).ready(function () {
         var year = $(this).val();
         actualYear = new Date().getFullYear();
 
-        validateNumberInput($(this), $('#Month'), year, 4, actualYear, 1000)
+        validateFocusChange($(this), $('#Month'), year, 4, actualYear, 1000)
 
         var year = $(this).val();
         validateNumber(year, 1, actualYear, "Y");
@@ -127,17 +152,17 @@ $(document).ready(function () {
         checkRegisterButton();
     });
     $('#Year').on('blur', function () {
-        if ($('#Month').val != "" && $('#Day').val != "")
-            showOrHideMessage($('.BirthDate-error-message'), validations.Email, "La fecha de nacimiento parece estar mal");
+        if ($('#Month').val() != "" && $('#Day').val() != "")
+            showOrHideMessage($('.BirthDate-error-message'), (validations.Year && validations.Month && validations.Day), "La fecha de nacimiento parece estar mal");
     });
     $('#Month').on('input', function () {
         var month = $(this).val();
         var actualMonth = new Date().getMonth() + 1;
 
-        if ($('#Year').val() == getFullYear())
-            validateNumberInput($(this), $('#Day'), month, 2, actualMonth, 1)
+        if ($('#Year').val() == new Date().getFullYear())
+            validateFocusChange($(this), $('#Day'), month, 2, actualMonth, 1)
         else
-            validateNumberInput($(this), $('#Day'), month, 2, 12, 1)
+            validateFocusChange($(this), $('#Day'), month, 2, 12, 1)
 
         var month = $(this).val();
         validateNumber(month,1,12,"M");
@@ -145,17 +170,17 @@ $(document).ready(function () {
         checkRegisterButton();
     });
     $('#Month').on('blur', function () {
-        if ($('#Year').val != "" && $('#Day').val != "")
-            showOrHideMessage($('.BirthDate-error-message'), validations.Email, "La fecha de nacimiento parece estar mal");
+        if ($('#Year').val() != "" && $('#Day').val() != "")
+            showOrHideMessage($('.BirthDate-error-message'), (validations.Year && validations.Month && validations.Day), "La fecha de nacimiento parece estar mal");
     });
     $('#Day').on('input', function () {
         var day = $(this).val();
         var actualDay = new Date().getDay();
 
         if ($('#Year').val() == new Date().getFullYear() && $('#Month').val() == new Date().getMonth())
-            validateNumberInput($(this), $('#Day'), day, 2, actualDay, 1)
+            validateFocusChange($(this), $('#Day'), day, 2, actualDay, 1)
         else
-            validateNumberInput($(this), $('#Day'), day, 2, 31, 1)
+            validateFocusChange($(this), $('#Day'), day, 2, 31, 1)
 
         var day = $(this).val();
         validateNumber(day, 1, 31, "D");
@@ -163,28 +188,26 @@ $(document).ready(function () {
         checkRegisterButton();
     });
     $('#Day').on('blur', function () {
-        showOrHideMessage($('.BirthDate-error-message'), validations.Email, "La fecha de nacimiento parece estar mal");
-    });
-    $('#EducationLevel').on('blur', function () {
+        if ($('#Year').val()  != "" && $('#Month').val() != "")
+            showOrHideMessage($('.BirthDate-error-message'), (validations.Year && validations.Month && validations.Day), "La fecha de nacimiento parece estar mal");
+    }); 
+    $('#EducationLevel').on('change', function () {
         var edLevel = $(this).val();
         validateEducationLevel(edLevel);
         checkRegisterButton();
+        showOrHideMessage($('.EducationLevel-error-message'), validations.EducationLevel, "Debe seleccionar una opción");
     });
-    $('#EducationProgress').on('blur', function () {
+    $('#EducationProgress').on('change', function () {
         var edProgress = $(this).val();
-        validateEducationLevel(edProgress);
+        validateEducationProgress(edProgress);
         checkRegisterButton();
+        showOrHideMessage($('.EducationProgress-error-message'), validations.EducationProgress, "Debe seleccionar una opción");
     });
     $('#Doc').on('change', function () {
-        var file = $(this);
-        if (file.val() != "" || file.val() != null )
-            DocFile = file;
-        console.log("Este es file________")
-        console.log(file);
-        console.log(file.val());
-        console.log("Ahora DocFile________")
-        console.log(DocFile);
-        console.log(DocFile.val());
-
+        var doc = this.files[0];
+        console.log(doc);
+        validateDoc(doc);
+        checkRegisterButton();
+        showOrHideMessage($('.Doc-error-message'), validations.Doc, "El documento parece ser invalido. Solo se aceptan archivos .jpg o .pdf");
     });
 });

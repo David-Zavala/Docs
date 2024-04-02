@@ -172,18 +172,25 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\DocController.cs" />
     <Compile Include="Controllers\FormValidationsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Data\Interfaces\IDocsRepository.cs" />
     <Compile Include="Data\Interfaces\IUsersRepository.cs" />
+    <Compile Include="Data\Repositories\DocsRepository.cs" />
     <Compile Include="Data\Repositories\UsersRepository.cs" />
     <Compile Include="Data\DataContext.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202403152031552_one.cs" />
-    <Compile Include="Migrations\202403152031552_one.Designer.cs">
-      <DependentUpon>202403152031552_one.cs</DependentUpon>
+    <Compile Include="Migrations\202404021920524_first.cs" />
+    <Compile Include="Migrations\202404021920524_first.Designer.cs">
+      <DependentUpon>202404021920524_first.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202404021931026_sec.cs" />
+    <Compile Include="Migrations\202404021931026_sec.Designer.cs">
+      <DependentUpon>202404021931026_sec.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\FormModels\DocForm.cs" />
@@ -253,7 +260,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Data\SavedFiles\" />
     <Folder Include="Views\Account\" />
+    <Folder Include="Views\Doc\" />
     <Folder Include="Views\FormValidations\" />
     <Folder Include="Views\Users\" />
   </ItemGroup>
@@ -288,8 +297,11 @@
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202403152031552_one.resx">
-      <DependentUpon>202403152031552_one.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202404021920524_first.resx">
+      <DependentUpon>202404021920524_first.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202404021931026_sec.resx">
+      <DependentUpon>202404021931026_sec.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

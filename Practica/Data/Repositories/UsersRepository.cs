@@ -44,6 +44,12 @@ namespace Practica.Data.Respositories
                 Docs = user.Docs,
             };
         }
+        
+        public async Task<User> GetUserForDoc(string email)
+        {
+            User user = await db.User.Take(1).Where(x => x.Email == email).FirstOrDefaultAsync();
+            return user;
+        }
 
         public async Task<UserToReturn> TryLogin(Login loginUser)
         {

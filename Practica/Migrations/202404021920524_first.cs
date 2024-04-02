@@ -3,7 +3,7 @@
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class one : DbMigration
+    public partial class first : DbMigration
     {
         public override void Up()
         {
@@ -11,9 +11,10 @@
                 "dbo.Docs",
                 c => new
                     {
-                        Id = c.Int(nullable: false, identity: true),
+                        Id = c.String(nullable: false, maxLength: 128),
                         Name = c.String(nullable: false),
                         Email = c.String(nullable: false, maxLength: 128),
+                        RegisteredEmail = c.String(nullable: false),
                         BirthDate = c.DateTime(nullable: false, storeType: "date"),
                         Age = c.Int(nullable: false),
                         Education = c.String(nullable: false),

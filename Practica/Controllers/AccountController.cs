@@ -2,7 +2,6 @@
 using Practica.Models;
 using Practica.Models.FormModels;
 using System;
-using System.Configuration;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
@@ -10,7 +9,7 @@ namespace Practica.Controllers
 {
     public class AccountController : Controller
     {
-        UsersRepository usersRepository = new UsersRepository();
+        UsersRepository usersR = new UsersRepository();
         // POST: /account/login
         [HttpPost]
         [AllowAnonymous]
@@ -22,7 +21,7 @@ namespace Practica.Controllers
                 if (!ModelState.IsValid)
                     return View("Login", "Login", viewModel);
 
-                UserToReturn existingUser = await usersRepository.TryLogin(viewModel);
+                UserToReturn existingUser = await usersR.TryLogin(viewModel);
                 if (existingUser != null)
                 {
                     //var roles = new string[] { "User" , "Admin" };
@@ -33,6 +32,7 @@ namespace Practica.Controllers
                     //return RedirectToAction("Index", "Home", new { token = jwtSecurityToken });
 
                     Session["LoggedIn"] = existingUser.Name;
+                    Session["Email"] = existingUser.Email;
                     return RedirectToAction("Index", "Home");
 
                 }
@@ -50,7 +50,7 @@ namespace Practica.Controllers
         [HttpGet]
         [AllowAnonymous]
         //[ValidateAntiForgeryToken]
-        public async Task<ActionResult> Logout()
+        public ActionResult Logout()
         {
             Session.Abandon();
             Session.Clear();

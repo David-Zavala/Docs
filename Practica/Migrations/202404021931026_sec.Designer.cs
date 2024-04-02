@@ -7,13 +7,13 @@ namespace Practica.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.4.4")]
-    public sealed partial class one : IMigrationMetadata
+    public sealed partial class sec : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(one));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(sec));
         
         string IMigrationMetadata.Id
         {
-            get { return "202403152031552_one"; }
+            get { return "202404021931026_sec"; }
         }
         
         string IMigrationMetadata.Source
