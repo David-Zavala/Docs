@@ -40,7 +40,7 @@ namespace Practica.Controllers
                 ModelState.AddModelError("", "Invalid username or password.");
 
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 ModelState.AddModelError("", "Invalid username or password.");
             }

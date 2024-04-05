@@ -4,6 +4,7 @@ using Practica.Data.Respositories;
 using Practica.Models.FormModels;
 using System;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Mvc;
 
 namespace Practica.Controllers
@@ -12,25 +13,60 @@ namespace Practica.Controllers
     {
         private readonly DocsRepository docsR = new DocsRepository();
         private readonly UsersRepository usersR = new UsersRepository();
-        public async Task<Doc> Register(DocForm doc)
+
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<ActionResult> Register(DocForm docData)
         {
-            string actualEmail = Session["Email"]?.ToString();
-            string birthDate = doc.Year.ToString() + "-" + doc.Month.ToString() + "-" + doc.Day.ToString();
-            string createdId = actualEmail.Substring(0,3) + doc.Name.Substring(0,5) + "_" + GetDateTimeNow();
-            string createdDocPath = "Data/SavedFiles/" + doc.Name + "_" + createdId;
+            string actualEmail = "d@d.com"; /*Session["Email"]?.ToString();*/
+            string birthDate = docData.Year.ToString() + "-" + docData.Month.ToString() + "-" + docData.Day.ToString();
+            string createdId = actualEmail.Substring(0,3) + docData.Name.Substring(0,5) + "_" + GetDateTimeNow();
+            string createdDocPath = "~/Data/SavedFiles/" + createdId + "_" + docData.FileName;
+
             Doc mappedDoc = new Doc {
                 Id = createdId,
                 User = await usersR.GetUserForDoc(actualEmail),
-                Name = doc.Name,
+                Name = docData.Name,
                 Email = actualEmail,
-                RegisteredEmail = doc.Email,
+                RegisteredEmail = docData.Email,
                 BirthDate = DateTime.Parse(birthDate),
                 Age = GetAge(birthDate),
-                Education = doc.EducationLevel + " " + doc.EducationProgress,
+                Education = docData.EducationLevel + " " + docData.EducationProgress,
                 DocPath = createdDocPath,
                 LastUpdate = GetDateTimeNow(),
             };
-            return await docsR.RegisterDoc(mappedDoc);
+
+            /* Intentar guardar lainformación en la base de datos */
+            //try
+            //{
+            //    //Doc registeredDoc = await docsR.RegisterDoc(mappedDoc);
+            //}
+            //catch (Exception ex)
+            //{
+            //    return Json(new { success = false, message = "Error al registrar en la base de datos: " + ex.Message });
+            //}
+
+            /* Intentar guardar el archivo en el directorio correspondiente */
+            HttpPostedFileBase file = docData.Doc;
+            try
+            {
+                if (file != null && file.ContentLength > 0)
+                {
+                    string rutaArchivo = Server.MapPath(createdDocPath);
+                    file.SaveAs(rutaArchivo);
+                }
+                else
+                {
+                    return Json(new { success = false, message = "No se ha enviado ningún archivo o llego nulo." });
+                }
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "Error al guardar el archivo: " + ex.Message });
+            }
+
+            /* Si todo lo demas sale bien se llega a este punto */
+            return Json(new { success = true, message = "Archivo guardado con éxito TODO SALIO BIEN." });
         }
         private int GetAge(string birthDate)
         {

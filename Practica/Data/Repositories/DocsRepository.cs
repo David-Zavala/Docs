@@ -3,6 +3,7 @@ using Practica.Data.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -11,17 +12,17 @@ namespace Practica.Data.Repositories
     public class DocsRepository : IDocsRepository
     {
         private readonly DataContext db = new DataContext();
-        public async Task<Doc> RegisterDoc(Doc doc)
+        public async Task<Doc> RegisterDoc(Doc doc )
         {
             try
             {
-                db.Doc.Add(doc);
+                db.Doc.AddOrUpdate(doc);
                 db.SaveChanges();
                 return await db.Doc.Take<Doc>(1).Where(x => x.Id == doc.Id).FirstOrDefaultAsync<Doc>();
             }
             catch (Exception e)
             {
-                Doc nullDoc = new Doc { Id = "-1" };
+                Doc nullDoc = new Doc { Id = "-1", Name = e.ToString() };
                 return nullDoc;
             }
         }

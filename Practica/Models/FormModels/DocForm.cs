@@ -9,8 +9,6 @@ namespace Practica.Models.FormModels
     public class DocForm
     {
         [Required]
-        public User User { get; set; }
-        [Required]
         public string Name { get; set; }
         [Required]
         public string Email { get; set; }
@@ -26,7 +24,9 @@ namespace Practica.Models.FormModels
         
         public string EducationLevel { get; set; }
         public string EducationProgress { get; set; }
-        [Required]
+        //[Required]
         public HttpPostedFileBase Doc { get; set; }
+
+        public string FileName { get; set; }
     }
 }

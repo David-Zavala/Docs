@@ -1,5 +1,15 @@
 var validations = { Name: false, Email: false, Year: false, Month: false, Day: false, EducationLevel: false, EducationProgress: false, Doc: false };
-var DocFile = null;
+var DocForm = {
+    Name: "",
+    Email: "",
+    Year: -1,
+    Month: -1,
+    Day: -1,
+    EducationLevel: "0",
+    EducationProgress: "0",
+    Doc: null,
+    FileName: ""
+}
 function showOrHideMessage(item, validation, message) {
     if (validation) {
         item.text(null);
@@ -13,7 +23,6 @@ function showOrHideMessage(item, validation, message) {
     }
 }
 function checkRegisterButton() {
-    console.log(validations);
     if (validations.Name && validations.Email && validations.Year && validations.Month && validations.Day && validations.EducationLevel && validations.EducationProgress && validations.Doc)
         $('#RegisterDocButton').prop('disabled', false);
     else
@@ -22,9 +31,11 @@ function checkRegisterButton() {
 function validateName(name) {
     if (name != "") {
         validations.Name = true;
+        DocForm.Name = name;
     }
     else {
         validations.Name = false;
+        DocForm.Name = "";
     }
 }
 function validateEmail(email) {
@@ -35,9 +46,11 @@ function validateEmail(email) {
         success: function (valid) {
             if (valid) {
                 validations.Email = true;
+                DocForm.Email = email;
             }
             else {
                 validations.Email = false;
+                DocForm.Email = "";
             }
         }
     });
@@ -49,33 +62,35 @@ function validateNumber(number, min, max, item) {
         type: 'GET',
         data: { numberObj: numberObj },
         success: function (valid) {
-            console.log(item)
             switch (item) {
                 case "Y":
-                    console.log("Entro a Y")
                     if (valid) {
                         validations.Year = true;
+                        DocForm.Year = number;
                     }
                     else {
                         validations.Year = false;
+                        DocForm.Year = -1;
                     }
                     break;
                 case "M":
-                    console.log("Entro a M")
                     if (valid) {
                         validations.Month = true;
+                        DocForm.Month = number;
                     }
                     else {
                         validations.Month = false;
+                        DocForm.Month = -1;
                     }
                     break;
                 case "D":
-                    console.log("Entro a D")
                     if (valid) {
                         validations.Day = true;
+                        DocForm.Day = number;
                     }
                     else {
                         validations.Day = false;
+                        DocForm.Day = -1;
                     }
                     break;
             }
@@ -93,35 +108,54 @@ function validateFocusChange(input, nextInput, number, maxLength, max, min) {
     }
 }
 function validateEducationLevel(selectedValue) {
-    if (selectedValue == "0")
-        validations.EducationLevel = false
-    else
-        validations.EducationLevel = true
+    if (selectedValue == "0") {
+        validations.EducationLevel = false;
+        DocForm.EducationLevel = "0";
+    }
+    else {
+        validations.EducationLevel = true;
+        DocForm.EducationLevel = selectedValue;
+    }
 }
 function validateEducationProgress(selectedValue) {
-    if (selectedValue == "0")
-        validations.EducationProgress = false
-    else
-        validations.EducationProgress = true
+    if (selectedValue == "0") {
+        validations.EducationProgress = false;
+        DocForm.EducationProgress = "0";
+    }
+    else {
+        validations.EducationProgress = true;
+        DocForm.EducationProgress = selectedValue;
+    }
 }
-function validateDoc(doc) {
-    var formData = new FormData();
-    formData.append('doc', doc);
-    $.ajax({
-        url: '/FormValidations/CheckDoc',
-        type: 'GET',
-        data: formData,
-        processData: false,
-        contentType: false,
-        success: function (valid) {
-            if (valid) {
-                validations.Doc = true;
+async function validateDoc(doc, fileName) {
+    if (doc != undefined) {
+        var formData = new FormData();
+        formData.append('doc', doc);
+
+        await $.ajax({
+            url: '/FormValidations/CheckDoc',
+            type: 'GET',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (valid) {
+                if (valid) {
+                    validations.Doc = true;
+                    DocForm.Doc = doc;
+                    DocForm.FileName = fileName;
+                }
+                else {
+                    validations.Doc = false;
+                    DocForm.Doc = null;
+                    DocForm.FileName = "";
+                }
             }
-            else {
-                validations.Doc = false;
-            }
-        }
-    });
+        });
+    }
+    else {
+        validations.Doc = false;
+        DocForm.Doc = null;
+    }
 }
 $(document).ready(function () {
     $('#Name').on('input', function () {
@@ -205,9 +239,42 @@ $(document).ready(function () {
     });
     $('#Doc').on('change', function () {
         var doc = this.files[0];
-        console.log(doc);
-        validateDoc(doc);
-        checkRegisterButton();
-        showOrHideMessage($('.Doc-error-message'), validations.Doc, "El documento parece ser invalido. Solo se aceptan archivos .jpg o .pdf");
+        var fileName = $(this).val().split('\\').pop();
+        docControl(doc, fileName); // Esto es necesario ya que si no ValidateDoc se terminaba de ejecutar hasta el final.
+    });
+    $('#RegisterDocButton').on('click', function () {
+        sendRegisterRequest();
     });
 });
+async function docControl(doc, fileName) {
+    await validateDoc(doc, fileName);
+    checkRegisterButton();
+    showOrHideMessage($('.Doc-error-message'), validations.Doc, "El documento parece ser invalido. Solo se aceptan archivos .jpg o .pdf");
+}
+function sendRegisterRequest() {
+    var docData = new FormData();
+    docData.append('Name', DocForm.Name);
+    docData.append('Email', DocForm.Email);
+    docData.append('Year', DocForm.Year);
+    docData.append('Month', DocForm.Month);
+    docData.append('Day', DocForm.Day);
+    docData.append('EducationLevel', DocForm.EducationLevel);
+    docData.append('EducationProgress', DocForm.EducationProgress);
+    docData.append('FileName', DocForm.FileName);
+    docData.append('Doc', DocForm.Doc)
+    console.log(DocForm.FileName)
+    $.ajax({
+        url: '/Doc/Register',
+        type: 'POST',
+        data: docData,
+        processData: false,
+        contentType: false,
+        success: function (response) {
+            console.log('Documento enviado con éxito');
+            console.log('Respuesta del servidor:', response);
+        },
+        error: function (xhr, status, error) {
+            console.error('Error al enviar documento:', error);
+        }
+    });
+}

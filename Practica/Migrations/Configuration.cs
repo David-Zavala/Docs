@@ -5,7 +5,7 @@
     using Practica.Data.Models;
     using Practica.Data;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<Practica.Data.DataContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<DataContext>
     {
         public Configuration()
         {
