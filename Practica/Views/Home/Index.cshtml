@@ -19,7 +19,7 @@
                         <div class="mb-md-5 mt-md-4 pb-5">
 
                             <h2 class="fw-bold mb-2 text-uppercase">Registro de documento</h2>
-                            <p class="text-white-50 mb-5">Porfavor llene el formulario</p>
+                            <p class="text-white-50 mb-5">Porfavor llene los campos obligatorios *</p>
 
                             @using (Html.BeginForm("Register", "Doc", FormMethod.Post, new { id = "RegisterDocForm" }))
                             {
@@ -94,7 +94,7 @@
                                             new SelectListItem { Text = "Preparatoria", Value = "Preparatoria" },
                                             new SelectListItem { Text = "Educación básica", Value = "Educacion basica" }
                                         }, "Value", "Text"), new { @class = "form-control form-control-lg" })
-                                        @Html.LabelFor(m => m.EducationLevel, "Nivel educativo*", new { @class = "form-label" })
+                                        @Html.LabelFor(m => m.EducationLevel, "Nivel educativo", new { @class = "form-label" })
                                     </div>
                                     <div class="selectContainer">
                                         <div class="alert alert-danger mt-2 EducationProgress-error-message" style="display: none;">
@@ -106,7 +106,7 @@
                                             new SelectListItem { Text = "En progreso", Value = "En progreso" },
                                             new SelectListItem { Text = "No terminada", Value = "No terminada" }
                                         }, "Value", "Text"), new { @class = "form-control form-control-lg" })
-                                        @Html.LabelFor(m => m.EducationProgress, "Progreso*", new { @class = "form-label" })
+                                        @Html.LabelFor(m => m.EducationProgress, "Progreso", new { @class = "form-label" })
                                     </div>
                                 </div>
 
@@ -119,10 +119,12 @@
                                     <input id="DeleteDoc" class="btn btn-outline-light btn-md px-5" type="button" value="Eliminar archivo" />
                                 </div>
 
-                                <input id="RegisterDocButton" class="btn btn-outline-light btn-lg px-5" value="Completar registro" disabled />
+                                <input id="RegisterDocButton" class="btn btn-outline-light btn-lg px-5" value="Completar registro" />
 
                             }
-
+                            <div class="alert alert-success mt-2 Register-message" style="display: none;">
+                                @Html.ValidationMessage("", new { @class = "Register-message", style = "display: none;" })
+                            </div>
                         </div>
 
                     </div>

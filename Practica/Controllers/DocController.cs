@@ -21,10 +21,11 @@ namespace Practica.Controllers
         {
             string actualEmail = "d@d.com"; /*Session["Email"]?.ToString();*/
             string birthDate = docData.Year.ToString() + "-" + docData.Month.ToString() + "-" + docData.Day.ToString();
-            string createdId = actualEmail.Substring(0,3) + docData.Name.Substring(0,5) + "_" + GetDateTimeNowAsString();
-            string createdDocPath = "~/Data/SavedFiles/" + createdId + "_" + docData.FileName;
+            string createdId = actualEmail + "_" + docData.Name + "_" + docData.FileName + "_" + GetDateTimeNowAsString();
+            string createdDocPath = "~/Data/SavedFiles/" + createdId + "_._._" + docData.FileName;
 
-            Doc mappedDoc = new Doc {
+            Doc mappedDoc = new Doc
+            {
                 Id = createdId,
                 User = await usersR.GetUserForDoc(actualEmail),
                 Name = docData.Name,
@@ -68,7 +69,7 @@ namespace Practica.Controllers
             }
 
             /* Si todo lo demas sale bien se llega a este punto */
-            return Json(new { success = true, message = "Archivo guardado con éxito TODO SALIO BIEN." });
+            return Json(new { success = true, message = "Archivo registrado con éxito." });
         }
         private int GetAge(string birthDate)
         {

@@ -23,7 +23,7 @@ function showOrHideMessage(item, validation, message) {
     }
 }
 function checkRegisterButton() {
-    if (validations.Name && validations.Email && validations.Year && validations.Month && validations.Day && validations.EducationLevel && validations.EducationProgress && validations.Doc)
+    if (validations.Name && validations.Email && validations.Year && validations.Month && validations.Day && validations.Doc)
         $('#RegisterDocButton').prop('disabled', false);
     else
         $('#RegisterDocButton').prop('disabled', true);
@@ -252,6 +252,8 @@ async function docControl(doc, fileName) {
     showOrHideMessage($('.Doc-error-message'), validations.Doc, "El documento parece ser invalido. Solo se aceptan archivos .jpg o .pdf");
 }
 function sendRegisterRequest() {
+    var registerMessage = "";
+
     var docData = new FormData();
     docData.append('Name', DocForm.Name);
     docData.append('Email', DocForm.Email);
@@ -262,7 +264,7 @@ function sendRegisterRequest() {
     docData.append('EducationProgress', DocForm.EducationProgress);
     docData.append('FileName', DocForm.FileName);
     docData.append('Doc', DocForm.Doc)
-    console.log(DocForm.FileName)
+
     $.ajax({
         url: '/Doc/Register',
         type: 'POST',
@@ -270,11 +272,21 @@ function sendRegisterRequest() {
         processData: false,
         contentType: false,
         success: function (response) {
-            console.log('Documento enviado con éxito');
-            console.log('Respuesta del servidor:', response);
+            if (response.success == false) {
+                registerMessage = response.message;
+                console.log("Error en el registro del documento: ", reponse.message);
+                showOrHideMessage($('.Register-message'), false, registerMessage);
+            }
+
+            if (response.success == true) {
+                registerMessage = response.message;
+                console.log("Documento registrado con exito");
+                showOrHideMessage($('.Register-message'), false, registerMessage);
+            }
         },
         error: function (xhr, status, error) {
-            console.error('Error al enviar documento:', error);
+            console.error('Error en la solicitud de registro:', error);
+            showOrHideMessage($('.Register-message'), false, error);
         }
     });
 }

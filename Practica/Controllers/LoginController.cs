@@ -11,5 +11,10 @@ namespace Practica.Controllers
             if (openSession == null) return View();
             else return RedirectToAction("Index", "Home");
         }
+        [HttpGet]
+        public ActionResult Register()
+        { 
+            return View();
+        }
     }
 }

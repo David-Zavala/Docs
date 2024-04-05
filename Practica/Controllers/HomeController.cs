@@ -23,11 +23,11 @@ namespace Practica.Controllers
             //}
 
             // ************* Comentado hasta acabar vista Home *************
-            //var openSession = Session["LoggedIn"]?.ToString();
-            //if (openSession != null) return View();
-            //else return RedirectToAction("Login", "Login");
+            var openSession = Session["LoggedIn"]?.ToString();
+            if (openSession != null) return View();
+            else return RedirectToAction("Login", "Login");
 
-            return View();
+            // return View();
         }
     }
 }
