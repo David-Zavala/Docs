@@ -12,18 +12,27 @@ namespace Practica.Data.Repositories
     public class DocsRepository : IDocsRepository
     {
         private readonly DataContext db = new DataContext();
-        public async Task<Doc> RegisterDoc(Doc doc )
+        public async Task<Doc> RegisterDoc(Doc doc)
         {
             try
             {
-                db.Doc.AddOrUpdate(doc);
-                db.SaveChanges();
+                var user = await db.User.FirstOrDefaultAsync(u => u.Email == doc.Email);
+
+                if (user != null)
+                {
+                    doc.User = user;
+                    db.Doc.AddOrUpdate(doc);
+                    await db.SaveChangesAsync();
+                }
+                else
+                {
+                    return new Doc { Id = "-3312", Name = "Parece haber un problema con el usuario actual" };
+                }
                 return await db.Doc.Take<Doc>(1).Where(x => x.Id == doc.Id).FirstOrDefaultAsync<Doc>();
             }
             catch (Exception e)
             {
-                Doc nullDoc = new Doc { Id = "-1", Name = e.ToString() };
-                return nullDoc;
+                return new Doc { Id = "-1", Name = e.ToString() };
             }
         }
         public Task<Doc> DeleteDoc(int id)

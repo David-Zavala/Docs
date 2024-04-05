@@ -3,6 +3,7 @@ using Practica.Data.Repositories;
 using Practica.Data.Respositories;
 using Practica.Models.FormModels;
 using System;
+using System.Globalization;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -20,7 +21,7 @@ namespace Practica.Controllers
         {
             string actualEmail = "d@d.com"; /*Session["Email"]?.ToString();*/
             string birthDate = docData.Year.ToString() + "-" + docData.Month.ToString() + "-" + docData.Day.ToString();
-            string createdId = actualEmail.Substring(0,3) + docData.Name.Substring(0,5) + "_" + GetDateTimeNow();
+            string createdId = actualEmail.Substring(0,3) + docData.Name.Substring(0,5) + "_" + GetDateTimeNowAsString();
             string createdDocPath = "~/Data/SavedFiles/" + createdId + "_" + docData.FileName;
 
             Doc mappedDoc = new Doc {
@@ -37,14 +38,15 @@ namespace Practica.Controllers
             };
 
             /* Intentar guardar lainformación en la base de datos */
-            //try
-            //{
-            //    //Doc registeredDoc = await docsR.RegisterDoc(mappedDoc);
-            //}
-            //catch (Exception ex)
-            //{
-            //    return Json(new { success = false, message = "Error al registrar en la base de datos: " + ex.Message });
-            //}
+            try
+            {
+                Doc registeredDoc = await docsR.RegisterDoc(mappedDoc);
+                if (registeredDoc.Id == "-1") throw new Exception("Hubo un error en el repositorio");
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "Error al registrar en la base de datos: " + ex.Message });
+            }
 
             /* Intentar guardar el archivo en el directorio correspondiente */
             HttpPostedFileBase file = docData.Doc;
@@ -86,6 +88,12 @@ namespace Practica.Controllers
                     age--;
 
             return age;
+        }
+        private string GetDateTimeNowAsString()
+        {
+            string[] now = DateTime.Now.ToString().Substring(0, 10).Split('/');
+            string newFormat = now[2] + '-' + now[1] + '-' + now[0];
+            return newFormat;
         }
         private DateTime GetDateTimeNow()
         {
