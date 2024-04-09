@@ -68,7 +68,7 @@ namespace Practica.Controllers
             }
 
             /* Si todo lo demas sale bien se llega a este punto */
-            return Json(new { success = true, message = "Archivo guardado con éxito TODO SALIO BIEN." });
+            return Json(new { success = true, message = "Registro realizado con éxito." });
         }
         private int GetAge(string birthDate)
         {
