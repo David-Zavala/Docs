@@ -8,35 +8,39 @@ var DocForm = {
     EducationLevel: "0",
     EducationProgress: "0",
     Doc: null,
-    FileName: ""
+    FileExtension: ""
 }
-function showOrHideMessage(item, validation, message) {
+function changeValidationColor(item, validation) {
     if (validation) {
-        item.text(null);
-        item.hide();
-        validations.Password = true;
+        item.css('border-color', 'green');
     }
     else {
-        item.text(message);
-        item.show();
-        validations.Password = false;
+        item.css('border-color', 'red');
     }
 }
 function checkRegisterButton() {
-    if (validations.Name && validations.Email && validations.Year && validations.Month && validations.Day && validations.EducationLevel && validations.EducationProgress && validations.Doc)
+    if (validations.Name && validations.Email && validations.Year && validations.Month && validations.Day && validations.Doc && validations.EducationLevel && validations.EducationProgress)
         $('#RegisterDocButton').prop('disabled', false);
     else
         $('#RegisterDocButton').prop('disabled', true);
 } 
-function validateName(name) {
-    if (name != "") {
-        validations.Name = true;
-        DocForm.Name = name;
-    }
-    else {
-        validations.Name = false;
-        DocForm.Name = "";
-    }
+async function validateName(name) {
+    await $.ajax({
+        url: '/FormValidations/CheckAlphabeticInput',
+        type: 'GET',
+        data: { str: name },
+        success: function (valid) {
+            if (valid == 1) {
+                validations.Name = true;
+                DocForm.Name = name;
+            }
+            else {
+                validations.Name = false;
+                DocForm.Name = "";
+            }
+            changeValidationColor($('#Name'), validations.Name);
+        }
+    });
 }
 function validateEmail(email) {
     $.ajax({
@@ -44,7 +48,7 @@ function validateEmail(email) {
         type: 'GET',
         data: { email: email },
         success: function (valid) {
-            if (valid) {
+            if (valid == 1) {
                 validations.Email = true;
                 DocForm.Email = email;
             }
@@ -52,6 +56,7 @@ function validateEmail(email) {
                 validations.Email = false;
                 DocForm.Email = "";
             }
+            changeValidationColor($('#Email'), validations.Email);
         }
     });
 }
@@ -99,12 +104,13 @@ function validateNumber(number, min, max, item) {
     });
 }
 function validateFocusChange(input, nextInput, number, maxLength, max, min) {
-    if (number.toString().length == maxLength) {
+    if (number.toString().length >= maxLength) {
         if (number > max)
             input.val(max);
         if (number < min)
             input.val(min);
-        nextInput.focus()
+        if (nextInput != null)
+            nextInput.focus();
     }
 }
 function validateEducationLevel(selectedValue) {
@@ -117,6 +123,24 @@ function validateEducationLevel(selectedValue) {
         DocForm.EducationLevel = selectedValue;
     }
 }
+async function validateEdLevelOtherInput(edLevel) {
+    await $.ajax({
+        url: '/FormValidations/CheckAlphabeticInput',
+        type: 'GET',
+        data: { str: edLevel },
+        success: function (valid) {
+            if (valid == 1) {
+                validations.EducationLevel = true;
+                DocForm.EducationLevel = edLevel;
+            }
+            else {
+                validations.EducationLevel = false;
+                DocForm.EducationLevel = "0";
+            }
+            changeValidationColor($('#EducationLevel'), validations.EducationLevel);
+        }
+    });
+}
 function validateEducationProgress(selectedValue) {
     if (selectedValue == "0") {
         validations.EducationProgress = false;
@@ -127,7 +151,7 @@ function validateEducationProgress(selectedValue) {
         DocForm.EducationProgress = selectedValue;
     }
 }
-async function validateDoc(doc, fileName) {
+async function validateDoc(doc) {
     if (doc != undefined) {
         var formData = new FormData();
         formData.append('doc', doc);
@@ -142,12 +166,10 @@ async function validateDoc(doc, fileName) {
                 if (valid) {
                     validations.Doc = true;
                     DocForm.Doc = doc;
-                    DocForm.FileName = fileName;
                 }
                 else {
                     validations.Doc = false;
                     DocForm.Doc = null;
-                    DocForm.FileName = "";
                 }
             }
         });
@@ -160,61 +182,26 @@ async function validateDoc(doc, fileName) {
 $(document).ready(function () {
     $('#Name').on('input', function () {
         var name = $(this).val();
-        validateName(name);
-        checkRegisterButton();
+        nameControl(name);
     });
     $('#Name').on('blur', function () {
-        showOrHideMessage($('.Name-error-message'), validations.Name, "Debes ingresar un nombre");
+        changeValidationColor($('#Name'), validations.Name);
     });
     $('#Email').on('input', function () {
         var email = $(this).val();
-        validateEmail(email);
-        checkRegisterButton();
+        emailControl(email);
     });
     $('#Email').on('blur', function () {
-        showOrHideMessage($('.Email-error-message'), validations.Email, "El correo electrónico no es válido");
-    });
-    $('#Year').on('input', function () {
-        var year = $(this).val();
-        actualYear = new Date().getFullYear();
-
-        validateFocusChange($(this), $('#Month'), year, 4, actualYear, 1000)
-
-        var year = $(this).val();
-        validateNumber(year, 1, actualYear, "Y");
-
-        checkRegisterButton();
-    });
-    $('#Year').on('blur', function () {
-        if ($('#Month').val() != "" && $('#Day').val() != "")
-            showOrHideMessage($('.BirthDate-error-message'), (validations.Year && validations.Month && validations.Day), "La fecha de nacimiento parece estar mal");
-    });
-    $('#Month').on('input', function () {
-        var month = $(this).val();
-        var actualMonth = new Date().getMonth() + 1;
-
-        if ($('#Year').val() == new Date().getFullYear())
-            validateFocusChange($(this), $('#Day'), month, 2, actualMonth, 1)
-        else
-            validateFocusChange($(this), $('#Day'), month, 2, 12, 1)
-
-        var month = $(this).val();
-        validateNumber(month,1,12,"M");
-
-        checkRegisterButton();
-    });
-    $('#Month').on('blur', function () {
-        if ($('#Year').val() != "" && $('#Day').val() != "")
-            showOrHideMessage($('.BirthDate-error-message'), (validations.Year && validations.Month && validations.Day), "La fecha de nacimiento parece estar mal");
+        changeValidationColor($('#Email'), validations.Email);
     });
     $('#Day').on('input', function () {
         var day = $(this).val();
         var actualDay = new Date().getDay();
 
         if ($('#Year').val() == new Date().getFullYear() && $('#Month').val() == new Date().getMonth())
-            validateFocusChange($(this), $('#Day'), day, 2, actualDay, 1)
+            validateFocusChange($(this), $('#Month'), day, 2, actualDay, 1)
         else
-            validateFocusChange($(this), $('#Day'), day, 2, 31, 1)
+            validateFocusChange($(this), $('#Month'), day, 2, 31, 1)
 
         var day = $(this).val();
         validateNumber(day, 1, 31, "D");
@@ -222,36 +209,115 @@ $(document).ready(function () {
         checkRegisterButton();
     });
     $('#Day').on('blur', function () {
-        if ($('#Year').val()  != "" && $('#Month').val() != "")
-            showOrHideMessage($('.BirthDate-error-message'), (validations.Year && validations.Month && validations.Day), "La fecha de nacimiento parece estar mal");
+        if ($('#Year').val() != "" && $('#Month').val() != "") {
+            changeValidationColor($('#Day'), (validations.Year && validations.Month && validations.Day));
+            changeValidationColor($('#Month'), (validations.Year && validations.Month && validations.Day));
+            changeValidationColor($('#Year'), (validations.Year && validations.Month && validations.Day));
+        }
     }); 
+    $('#Month').on('input', function () {
+        var month = $(this).val();
+        var actualMonth = new Date().getMonth() + 1;
+
+        if ($('#Year').val() == new Date().getFullYear())
+            validateFocusChange($(this), $('#Year'), month, 2, actualMonth, 1)
+        else
+            validateFocusChange($(this), $('#Year'), month, 2, 12, 1)
+
+        var month = $(this).val();
+        validateNumber(month,1,12,"M");
+
+        checkRegisterButton();
+    });
+    $('#Month').on('blur', function () {
+        if ($('#Year').val() != "" && $('#Day').val() != "") {
+            changeValidationColor($('#Day'), (validations.Year && validations.Month && validations.Day));
+            changeValidationColor($('#Month'), (validations.Year && validations.Month && validations.Day));
+            changeValidationColor($('#Year'), (validations.Year && validations.Month && validations.Day));
+        }
+    });
+    $('#Year').on('input blur', function () {
+        var year = $(this).val();
+        actualYear = new Date().getFullYear();
+
+        validateFocusChange($(this), null, year, 4, actualYear, 1000)
+
+        var year = $(this).val();
+        validateNumber(year, 1, actualYear, "Y");
+
+        checkRegisterButton();
+    });
+    $('#Year').on('blur', function () {
+        if ($('#Month').val() != "" && $('#Day').val() != "") {
+            changeValidationColor($('#Day'), (validations.Year && validations.Month && validations.Day));
+            changeValidationColor($('#Month'), (validations.Year && validations.Month && validations.Day));
+            changeValidationColor($('#Year'), (validations.Year && validations.Month && validations.Day));
+        }
+    });
     $('#EducationLevel').on('change', function () {
         var edLevel = $(this).val();
-        validateEducationLevel(edLevel);
-        checkRegisterButton();
-        showOrHideMessage($('.EducationLevel-error-message'), validations.EducationLevel, "Debe seleccionar una opción");
+        if (edLevel != "AddOther") {
+            $('#OtherOption').hide();
+            validateEducationLevel(edLevel);
+            checkRegisterButton();
+            changeValidationColor($('#EducationLevel'), validations.EducationLevel);
+        }
+        else {
+            $('#OtherOption').show();
+        }
+    });
+    $('#OtherOption').on('input', function () {
+        var option = $(this).val();
+        edLevelControl(option);
+    });
+    $('#OtherOption').on('blur', function () {
+        changeValidationColor($('#EducationLevel'), validations.EducationLevel);
+        changeValidationColor($('#OtherOption'), validations.EducationLevel);
     });
     $('#EducationProgress').on('change', function () {
         var edProgress = $(this).val();
         validateEducationProgress(edProgress);
         checkRegisterButton();
-        showOrHideMessage($('.EducationProgress-error-message'), validations.EducationProgress, "Debe seleccionar una opción");
+        changeValidationColor($('#EducationProgress'), validations.EducationProgress);
     });
     $('#Doc').on('change', function () {
         var doc = this.files[0];
-        var fileName = $(this).val().split('\\').pop();
-        docControl(doc, fileName); // Esto es necesario ya que si no ValidateDoc se terminaba de ejecutar hasta el final.
+        DocForm.FileExtension = $(this).val().split('\\').pop().split('.').pop();
+        docControl(doc);
+    });
+    $('#DeleteDoc').on('click', function () {
+        var fileInput = $('#Doc');
+        fileInput.val('');
+        validations.Doc = false;
+        DocForm.Doc = null;
+        DocForm.FileExtension = "";
+        checkRegisterButton();
     });
     $('#RegisterDocButton').on('click', function () {
+        $('#RegisterDocButton').prop('disabled', true);
         sendRegisterRequest();
     });
 });
-async function docControl(doc, fileName) {
-    await validateDoc(doc, fileName);
+async function nameControl(name) {
+    await validateName(name);
     checkRegisterButton();
-    showOrHideMessage($('.Doc-error-message'), validations.Doc, "El documento parece ser invalido. Solo se aceptan archivos .jpg o .pdf");
+}
+async function emailControl(email) {
+    await validateEmail(email);
+    checkRegisterButton();
+}
+async function edLevelControl(edLevel) {
+    await validateEdLevelOtherInput(edLevel);
+    checkRegisterButton();
+}
+async function docControl(doc) {
+    await validateDoc(doc);
+    checkRegisterButton();
+    changeValidationColor($('#Doc'), validations.Doc);
 }
 function sendRegisterRequest() {
+    var registerMessage = "";
+
     var docData = new FormData();
     docData.append('Name', DocForm.Name);
     docData.append('Email', DocForm.Email);
@@ -260,9 +326,9 @@ function sendRegisterRequest() {
     docData.append('Day', DocForm.Day);
     docData.append('EducationLevel', DocForm.EducationLevel);
     docData.append('EducationProgress', DocForm.EducationProgress);
-    docData.append('FileName', DocForm.FileName);
+    docData.append('FileExtension', DocForm.FileExtension);
     docData.append('Doc', DocForm.Doc)
-    console.log(DocForm.FileName)
+
     $.ajax({
         url: '/Doc/Register',
         type: 'POST',
@@ -270,11 +336,21 @@ function sendRegisterRequest() {
         processData: false,
         contentType: false,
         success: function (response) {
-            console.log('Documento enviado con éxito');
-            console.log('Respuesta del servidor:', response);
+            if (response.success == false) {
+                console.log("Error en el registro del documento: ", reponse.message);
+                $('.Register-message').show();
+                $('.Register-message').text(response.message);
+            }
+
+            if (response.success == true) {
+                $('.Register-message').show();
+                $('.Register-message').text(response.message);
+            }
         },
         error: function (xhr, status, error) {
-            console.error('Error al enviar documento:', error);
+            console.error('Error en la solicitud de registro:', error);
+            $('.Register-message').show();
+            $('.Register-message').text(error);
         }
     });
 }

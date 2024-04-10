@@ -23,10 +23,11 @@ namespace Practica.Models.FormModels
         // BirthDate inputs
         
         public string EducationLevel { get; set; }
+        public string EducationLevelOtherOption { get; set; }
         public string EducationProgress { get; set; }
         //[Required]
         public HttpPostedFileBase Doc { get; set; }
 
-        public string FileName { get; set; }
+        public string FileExtension { get; set; }
     }
 }

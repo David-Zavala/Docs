@@ -14,8 +14,8 @@
 
         protected override void Seed(DataContext context)
         {
-            User user1 = new User { Email = "d@d.com", Password = "ddd", Name = "David Zavala", BirthDate = DateTime.Parse("2002-03-06") };
-            User user2 = new User { Email = "o@o.com", Password = "ooo", Name = "Oscar Leija", BirthDate = DateTime.Parse("2001-03-06") };
+            User user1 = new User { Email = "d@d.com", Password = "ddd", Name = "David Zavala", BirthDate = DateTime.Parse("2002-03-06"), LastUpdate = GetDateTimeNow() };
+            User user2 = new User { Email = "o@o.com", Password = "ooo", Name = "Oscar Leija", BirthDate = DateTime.Parse("2001-03-06"), LastUpdate = GetDateTimeNow() };
             Doc doc1 = new Doc { Id = "prueba1", User = user1, Name = "ArchivoEjem1", Email = "aaa", RegisteredEmail = "ejem1@e.com", BirthDate = DateTime.Parse("2002-03-06"), Age = GetAge("2002-03-06"), Education = "Carrera en progreso", DocPath = "Data/SavedFiles/archivo1.txt", LastUpdate = GetDateTimeNow() };
             Doc doc2 = new Doc { Id = "prueba2", User = user1, Name = "ArchivoEjem2", Email = "aaa", RegisteredEmail = "ejem2@e.com", BirthDate = DateTime.Parse("2000-12-06"), Age = GetAge("2000-12-06"), Education = "Carrera en progreso", DocPath = "Data/SavedFiles/archivo2.txt", LastUpdate = GetDateTimeNow() };
             Doc doc3 = new Doc { Id = "prueba3", User = user2, Name = "ArchivoEjem3", Email = "aaa", RegisteredEmail = "ejem3@e.com", BirthDate = DateTime.Parse("2001-03-06"), Age = GetAge("2001-03-06"), Education = "Carrera en progreso", DocPath = "Data/SavedFiles/archivo3.txt", LastUpdate = GetDateTimeNow() };

@@ -8,8 +8,10 @@ namespace Practica.Data.Models
     {
         [Key]
         [Required]
-        //[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public string Id { get; set; }
+        [Required]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Count { get; set; }
         [Required]
         public User User { get; set; }
         [Required]
@@ -27,7 +29,7 @@ namespace Practica.Data.Models
         public string Education { get; set; }
         [Required]
         public string DocPath { get; set; }
-        [Column(TypeName = "Date")]
+        [Required]
         public DateTime LastUpdate { get; set; }
     }
 }

@@ -21,10 +21,11 @@ namespace Practica.Controllers
         {
             string actualEmail = "d@d.com"; /*Session["Email"]?.ToString();*/
             string birthDate = docData.Year.ToString() + "-" + docData.Month.ToString() + "-" + docData.Day.ToString();
-            string createdId = actualEmail.Substring(0,3) + docData.Name.Substring(0,5) + "_" + GetDateTimeNowAsString();
-            string createdDocPath = "~/Data/SavedFiles/" + createdId + "_" + docData.FileName;
+            string createdId = actualEmail + "_" + docData.Name + "_" + GetDateTimeNowAsString();
+            string createdDocPath = "~/Data/SavedFiles/" + createdId + "." + docData.FileExtension;
 
-            Doc mappedDoc = new Doc {
+            Doc mappedDoc = new Doc
+            {
                 Id = createdId,
                 User = await usersR.GetUserForDoc(actualEmail),
                 Name = docData.Name,
@@ -41,7 +42,7 @@ namespace Practica.Controllers
             try
             {
                 Doc registeredDoc = await docsR.RegisterDoc(mappedDoc);
-                if (registeredDoc.Id == "-1") throw new Exception("Hubo un error en el repositorio");
+                //if (registeredDoc.Id == "-1") throw new Exception("Hubo un error en el repositorio");
             }
             catch (Exception ex)
             {
@@ -91,9 +92,9 @@ namespace Practica.Controllers
         }
         private string GetDateTimeNowAsString()
         {
-            string[] now = DateTime.Now.ToString().Substring(0, 10).Split('/');
-            string newFormat = now[2] + '-' + now[1] + '-' + now[0];
-            return newFormat;
+            DateTime now = DateTime.Now;
+            string fecha = now.ToString("dd-MM-yyyy-HH-mm-ss");
+            return fecha;
         }
         private DateTime GetDateTimeNow()
         {

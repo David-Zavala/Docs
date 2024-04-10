@@ -17,5 +17,7 @@ namespace Practica.Data.Models
         [Column(TypeName = "Date")]
         public DateTime BirthDate { get; set; }
         public List<Doc> Docs { get; set; } = new List<Doc> ();
+        [Required]
+        public DateTime LastUpdate { get; set; }
     }
 }

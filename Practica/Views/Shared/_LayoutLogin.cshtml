@@ -10,13 +10,8 @@
 </head>
 <body>
     
-        @RenderBody() 
-        <hr />
-        <footer style="background-color: black; color: white;">
-            <p>&copy; @DateTime.Now.Year - Mi aplicación ASP.NET</p>
-        </footer>
+        @RenderBody()
     
-
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)

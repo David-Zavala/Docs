@@ -59,4 +59,10 @@ $(document).ready(function () {
     $('#Password').on('blur', function () {
         showOrHideMessage($('.Password-error-message'), validations.Password, "Debes ingresar la contraseña");
     });
+    $('#toRegisterButton').on('click', function () {
+        $.ajax({
+            url: 'Login/Register',
+            type: 'GET'
+        });
+    });
 });
