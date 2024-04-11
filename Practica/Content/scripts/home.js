@@ -138,6 +138,7 @@ async function validateEdLevelOtherInput(edLevel) {
                 DocForm.EducationLevel = "0";
             }
             changeValidationColor($('#EducationLevel'), validations.EducationLevel);
+            changeValidationColor($('#OtherOption'), validations.EducationLevel);
         }
     });
 }

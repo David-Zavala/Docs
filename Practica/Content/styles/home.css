@@ -4,10 +4,10 @@
     justify-content: center;
 }
 
-    .date-input input {
-        text-align: center;
-        margin: 0 5px;
-    }
+.date-input input {
+    text-align: center;
+    margin: 0 5px;
+}
 
 .long {
     width: 100px;
@@ -88,4 +88,10 @@ input[type="number"] {
 .hovertext:hover:before {
     opacity: 1;
     visibility: visible;
+}
+
+.OtherInput {
+    text-align: center;
+    margin: 0 5px;
+    width: 95%;
 }

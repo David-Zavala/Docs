@@ -72,7 +72,7 @@
                                                placeholder = "YYYY"
                                             })
                                         </div>
-                                        <label class="form-label hovertext" for="date-input" message="Debe ser una fecha válida">Fecha de nacimiento</label>
+                                        <label class="form-label hovertext" for="date-input" message="Debe ser una fecha válida">Fecha de nacimiento*</label>
                                     </div>
                                 </div>
                                 <div class="disprow form-outline form-white mb-4 education-container">
@@ -85,8 +85,8 @@
                                             new SelectListItem { Text = "Educación básica", Value = "Educacion basica" },
                                             new SelectListItem { Text = "Otro", Value = "AddOther" }
                                         }, "Value", "Text"), new { @class = "form-control form-control-lg" })
-                                        @Html.TextBoxFor(m => m.EducationLevelOtherOption, new { @class = "form-control form-control-lg", id = "OtherOption", style = "display:none;" })
-                                        @Html.LabelFor(m => m.EducationLevel, "Nivel educativo", new { @class = "form-label hovertext",
+                                        @Html.TextBoxFor(m => m.EducationLevelOtherOption, new { @class = "form-control form-control-lg OtherInput", id = "OtherOption", style = "display:none;" })
+                                        @Html.LabelFor(m => m.EducationLevel, "Nivel educativo*", new { @class = "form-label hovertext",
                                        message = "Debe seleccionar una opción o elegir la opción de Otro y escribir una usted. En caso de elegir Otro solo debe contener letras minúsculas o mayúsculas, se aceptan espacios y acentos."
                                    })
                                     </div>
@@ -97,7 +97,7 @@
                                             new SelectListItem { Text = "En progreso", Value = "En progreso" },
                                             new SelectListItem { Text = "No terminada", Value = "No terminada" }
                                         }, "Value", "Text"), new { @class = "form-control form-control-lg" })
-                                        @Html.LabelFor(m => m.EducationProgress, "Progreso", new { @class = "form-label hovertext",
+                                        @Html.LabelFor(m => m.EducationProgress, "Progreso*", new { @class = "form-label hovertext",
                                        message = "Debe seleccionar una opción." })
                                     </div>
                                 </div>
