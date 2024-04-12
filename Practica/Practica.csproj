@@ -197,6 +197,7 @@
       <DependentUpon>202404091947317_third.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\FormModels\Register.cs" />
     <Compile Include="Models\FormModels\DocForm.cs" />
     <Compile Include="Models\FormModels\Login.cs" />
     <Compile Include="Data\Models\Doc.cs" />

@@ -14,10 +14,10 @@ namespace Practica.Data.Models
         public string Password { get; set; }
         [Required]
         public string Name { get; set; }
-        [Column(TypeName = "Date")]
-        public DateTime BirthDate { get; set; }
         public List<Doc> Docs { get; set; } = new List<Doc> ();
         [Required]
         public DateTime LastUpdate { get; set; }
+        [Required]
+        public bool AdminRole { get; set; }
     }
 }
