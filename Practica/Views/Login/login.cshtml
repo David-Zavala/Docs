@@ -25,15 +25,11 @@
                             {
 
                                 <div class="form-outline form-white mb-4">
-                                    <div class="alert alert-danger mt-2 Email-error-message" style="display: none;">
-                                    @Html.ValidationMessageFor(m => m.Email, "", new { @class = "Email-error-message", style = "display: none;" })</div>
                                     @Html.TextBoxFor(m => m.Email, new { @class = "form-control form-control-lg" })
                                     @Html.LabelFor(m => m.Email, "Correo Electrónico*", new { @class = "form-label" })
                                 </div>
 
                                 <div class="form-outline form-white mb-4">
-                                    <div class="alert alert-danger mt-2 Password-error-message" style="display: none;">
-                                    @Html.ValidationMessageFor(m => m.Password, "", new { @class = "Password-error-message", style = "display: none;" })</div>
                                     @Html.PasswordFor(m => m.Password, new { @class = "form-control form-control-lg" })
                                     @Html.LabelFor(m => m.Password, "Contraseña*", new { @class = "form-label" })
 

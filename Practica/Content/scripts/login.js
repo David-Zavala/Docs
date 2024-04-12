@@ -13,43 +13,41 @@ function validateEmail(email) {
         type: 'GET',
         data: { email: email },
         success: function (valid) {
-            if (valid) {
+            if (valid == 1) {
                 validations.Email = true;
             }
             else {
                 validations.Email = false;
             }
+            changeValidationColor($('#Email'), validations.Email);
         }
     });
 }
 function validatePassword(password) {
     if (password != "") {
         validations.Password = true;
+        changeValidationColor($('#Password'), validations.Password);
     }
     else {
         validations.Password = false;
+        changeValidationColor($('#Password'), validations.Password);
     }
 }
-function showOrHideMessage(item,validation,message) {
+function changeValidationColor(item, validation) {
     if (validation) {
-        item.text(null);
-        item.hide();
-        validations.Password = true;
+        item.css('border-color', 'green');
     }
     else {
-        item.text(message);
-        item.show();
-        validations.Password = false;
+        item.css('border-color', 'red');
     }
 }
 $(document).ready(function () {
     $('#Email').on('input', function () {
         var email = $(this).val();
-        validateEmail(email);
-        checkLoginButton();
+        emailControl(email);
     });
     $('#Email').on('blur', function () {
-        showOrHideMessage($('.Email-error-message'), validations.Email, "El correo electrónico no es válido");
+        changeValidationColor($('#Email'), validations.Email);
     });
     $('#Password').on('input', function () {
         var password = $(this).val();
@@ -57,7 +55,7 @@ $(document).ready(function () {
         checkLoginButton();
     });
     $('#Password').on('blur', function () {
-        showOrHideMessage($('.Password-error-message'), validations.Password, "Debes ingresar la contraseña");
+        changeValidationColor($('#Password'), validations.Password);
     });
     $('#toRegisterButton').on('click', function () {
         $.ajax({
@@ -66,3 +64,7 @@ $(document).ready(function () {
         });
     });
 });
+async function emailControl(email) {
+    await validateEmail(email);
+    checkRegisterButton();
+}
