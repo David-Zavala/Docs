@@ -19,7 +19,7 @@ namespace Practica.Controllers
         [AllowAnonymous]
         public async Task<ActionResult> Register(DocForm docData)
         {
-            string actualEmail = "d@d.com"; /*Session["Email"]?.ToString();*/
+            string actualEmail = Session["Email"]?.ToString();
             string birthDate = docData.Year.ToString() + "-" + docData.Month.ToString() + "-" + docData.Day.ToString();
             string createdId = actualEmail + "_" + docData.Name + "_" + GetDateTimeNowAsString();
             string createdDocPath = "~/Data/SavedFiles/" + createdId + "." + docData.FileExtension;
@@ -27,7 +27,7 @@ namespace Practica.Controllers
             Doc mappedDoc = new Doc
             {
                 Id = createdId,
-                User = await usersR.GetUserForDoc(actualEmail),
+                User = await usersR.GetFullUserByEmail(actualEmail),
                 Name = docData.Name,
                 Email = actualEmail,
                 RegisteredEmail = docData.Email,

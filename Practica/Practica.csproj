@@ -196,6 +196,10 @@
     <Compile Include="Migrations\202404091947317_third.Designer.cs">
       <DependentUpon>202404091947317_third.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202404162124439_fourth.cs" />
+    <Compile Include="Migrations\202404162124439_fourth.Designer.cs">
+      <DependentUpon>202404162124439_fourth.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\FormModels\Register.cs" />
     <Compile Include="Models\FormModels\DocForm.cs" />
@@ -225,8 +229,12 @@
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
     <Content Include="Content\icons\box-arrow-right.svg" />
+    <Content Include="Content\scripts\homeAdmin.js" />
     <Content Include="Content\scripts\home.js" />
+    <Content Include="Content\scripts\layoutTopMargin.js" />
     <Content Include="Content\scripts\login.js" />
+    <Content Include="Content\styles\homeAdmin.css" />
+    <Content Include="Content\styles\modal.css" />
     <Content Include="Views\Shared\_LayoutLogin.cshtml" />
     <Content Include="Content\styles\home.css" />
     <Content Include="Content\styles\login.css" />
@@ -239,6 +247,7 @@
     <Content Include="Scripts\bootstrap.esm.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Data\SavedFiles\o%40o.com_Oscar Leija_17-04-2024-11-14-57.pdf" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -261,13 +270,14 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_LayoutHome.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Home\Home.cshtml" />
     <Content Include="Views\Login\Login.cshtml" />
     <Content Include="Views\Login\Register.cshtml" />
+    <Content Include="Views\Shared\_LayoutHomeAdmin.cshtml" />
+    <Content Include="Views\Home\HomeAdmin.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Data\SavedFiles\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />
@@ -308,6 +318,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202404091947317_third.resx">
       <DependentUpon>202404091947317_third.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202404162124439_fourth.resx">
+      <DependentUpon>202404162124439_fourth.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

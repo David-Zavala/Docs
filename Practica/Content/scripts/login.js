@@ -66,5 +66,5 @@ $(document).ready(function () {
 });
 async function emailControl(email) {
     await validateEmail(email);
-    checkRegisterButton();
+    checkLoginButton();
 }

@@ -28,7 +28,7 @@ namespace Practica.Data.Repositories
                 {
                     return new Doc { Id = "-3312", Name = "Parece haber un problema con el usuario actual" };
                 }
-                return await db.Doc.Take<Doc>(1).Where(x => x.Id == doc.Id).FirstOrDefaultAsync<Doc>();
+                return await db.Doc.FindAsync(doc.Id);
             }
             catch (Exception e)
             {
@@ -54,6 +54,12 @@ namespace Practica.Data.Repositories
         public Task<Doc> UpdateDoc(Doc doc)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<List<Doc>> GetDocsList()
+        {
+            List<Doc> docs = await db.Doc.ToListAsync();
+            return docs;
         }
     }
 }

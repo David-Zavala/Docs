@@ -8,6 +8,7 @@ namespace Practica.Data.Interfaces
     {
         Task<ICollection<Doc>> GetUserDocs(string email);
         Task<Doc> GetDoc(string email, int docId);
+        Task<List<Doc>> GetDocsList();
         Task<Doc> RegisterDoc(Doc doc);
         Task<Doc> UpdateDoc(Doc doc);
         Task<Doc> DeleteDoc(int id);

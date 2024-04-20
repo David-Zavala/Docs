@@ -154,23 +154,18 @@ function validateEducationProgress(selectedValue) {
 }
 async function validateDoc(doc) {
     if (doc != undefined) {
-        var formData = new FormData();
-        formData.append('doc', doc);
-
         await $.ajax({
             url: '/FormValidations/CheckDoc',
             type: 'GET',
-            data: formData,
-            processData: false,
-            contentType: false,
+            data: {fileType: doc.type},
             success: function (valid) {
-                if (valid) {
+                if (valid == 1) {
                     validations.Doc = true;
                     DocForm.Doc = doc;
                 }
                 else {
-                    validations.Doc = false;
-                    DocForm.Doc = null;
+                    deleteDoc();
+                    showModal();
                 }
             }
         });
@@ -262,6 +257,7 @@ $(document).ready(function () {
             validateEducationLevel(edLevel);
             checkRegisterButton();
             changeValidationColor($('#EducationLevel'), validations.EducationLevel);
+            $('#OtherOption').val("");
         }
         else {
             $('#OtherOption').show();
@@ -287,18 +283,32 @@ $(document).ready(function () {
         docControl(doc);
     });
     $('#DeleteDoc').on('click', function () {
-        var fileInput = $('#Doc');
-        fileInput.val('');
-        validations.Doc = false;
-        DocForm.Doc = null;
-        DocForm.FileExtension = "";
+        deleteDoc();
         checkRegisterButton();
     });
     $('#RegisterDocButton').on('click', function () {
         $('#RegisterDocButton').prop('disabled', true);
         sendRegisterRequest();
     });
+    $("#closeModal").on('click', function() {
+        $(".modal-background").addClass('hidden');
+    });
+    $("#wf-modal-background").on('click', function (e) {
+        if (e.target === this) {
+            $("#wf-modal-background").addClass('hidden');
+        }
+    });
 });
+function deleteDoc() {
+    var fileInput = $('#Doc');
+    fileInput.val('');
+    validations.Doc = false;
+    DocForm.Doc = null;
+    DocForm.FileExtension = "";
+}
+function showModal() {
+    $("#wf-modal-background").removeClass('hidden');
+}
 async function nameControl(name) {
     await validateName(name);
     checkRegisterButton();
@@ -316,7 +326,9 @@ async function docControl(doc) {
     checkRegisterButton();
     changeValidationColor($('#Doc'), validations.Doc);
 }
-function sendRegisterRequest() {
+async function sendRegisterRequest() {
+    $("#charging-icon").removeClass('hidden');
+
     var registerMessage = "";
 
     var docData = new FormData();
@@ -330,7 +342,7 @@ function sendRegisterRequest() {
     docData.append('FileExtension', DocForm.FileExtension);
     docData.append('Doc', DocForm.Doc)
 
-    $.ajax({
+    await $.ajax({
         url: '/Doc/Register',
         type: 'POST',
         data: docData,
@@ -354,4 +366,6 @@ function sendRegisterRequest() {
             $('.Register-message').text(error);
         }
     });
+
+    $("#charging-icon").addClass('hidden');
 }

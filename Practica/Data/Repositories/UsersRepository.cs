@@ -26,8 +26,8 @@ namespace Practica.Data.Respositories
                 {
                     Email = users[i].Email,
                     Name = users[i].Name,
-                    BirthDate = users[i].BirthDate,
                     Docs = users[i].Docs,
+                    AdminRole = users[i].AdminRole
                 });
             }
 
@@ -36,18 +36,18 @@ namespace Practica.Data.Respositories
 
         public async Task<UserToReturn> GetUserByEmail(string email)
         {
-            User user = await db.User.Take(1).Where(x => x.Email == email).FirstOrDefaultAsync();
+            User user = await db.User.FindAsync(email);
             return new UserToReturn {
                 Email = user.Email,
                 Name = user.Name,
-                BirthDate = user.BirthDate,
                 Docs = user.Docs,
+                AdminRole = user.AdminRole
             };
         }
-        
-        public async Task<User> GetUserForDoc(string email)
+
+        public async Task<User> GetFullUserByEmail(string email)
         {
-            User user = await db.User.Take(1).Where(x => x.Email == email).FirstOrDefaultAsync();
+            User user = await db.User.FindAsync(email);
             return user;
         }
 
@@ -61,14 +61,9 @@ namespace Practica.Data.Respositories
             return new UserToReturn {
                 Email = registeredUser.Email,
                 Name = registeredUser.Name,
-                BirthDate= registeredUser.BirthDate,
                 Docs = registeredUser.Docs,
+                AdminRole = registeredUser.AdminRole
             };
-        }
-
-        private async Task<User> GetFullUserByEmail(string email)
-        {
-            return await db.User.Take(1).Where(x => x.Email == email).FirstOrDefaultAsync();
         }
 
         public Task<UserToReturn> RegisterUser(User user)

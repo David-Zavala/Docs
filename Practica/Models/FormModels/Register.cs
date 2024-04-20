@@ -1,7 +1,4 @@
-﻿using Practica.Data.Models;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Practica.Models.FormModels
 {

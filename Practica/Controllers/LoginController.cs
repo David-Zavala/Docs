@@ -9,7 +9,7 @@ namespace Practica.Controllers
         {
             var openSession = Session["LoggedIn"]?.ToString();
             if (openSession == null) return View();
-            else return RedirectToAction("Index", "Home");
+            else return RedirectToAction("Home", "Home");
         }
         [HttpGet]
         public ActionResult Register()

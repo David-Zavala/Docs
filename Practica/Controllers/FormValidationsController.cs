@@ -36,12 +36,11 @@ namespace Practica.Controllers
             return true;
         }
         [HttpGet]
-        public bool CheckDoc(HttpPostedFileBase file)
+        public int CheckDoc(string fileType)
         {
-            if (file == null) return false;
-            if (file.ContentLength <= 0) return false;
-            if (!(file.ContentType == "image/jpeg" || file.ContentType == "image/jpg" || file.ContentType == "image/pdf")) return false;
-            return true;
+            if (fileType == null) return 0;
+            if (!(fileType == "image/jpeg" || fileType == "application/pdf")) return 0;
+            return 1;
 
         }
         [HttpGet]

@@ -31,9 +31,9 @@ namespace Practica.Controllers
                     //Session["JWTToken"] = jwtSecurityToken;
                     //return RedirectToAction("Index", "Home", new { token = jwtSecurityToken });
 
-                    Session["LoggedIn"] = existingUser.Name;
+                    Session["Name"] = existingUser.Name;
                     Session["Email"] = existingUser.Email;
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Home", "Home");
 
                 }
 
@@ -44,7 +44,7 @@ namespace Practica.Controllers
             {
                 ModelState.AddModelError("", "Invalid username or password.");
             }
-            return RedirectToAction("Login", "Login",viewModel);
+            return RedirectToAction("Login", "Login");
         }
 
         [HttpGet]
