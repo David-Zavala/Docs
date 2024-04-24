@@ -2,9 +2,11 @@
 using Practica.Data.Repositories;
 using Practica.Data.Respositories;
 using Practica.Models;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using System.Web.UI;
 
 namespace Practica.Controllers
 {
@@ -44,7 +46,12 @@ namespace Practica.Controllers
 
             return RedirectToAction("HomeAdmin");
         }
-        public async Task<ActionResult> HomeAdmin()
+
+        private readonly int _ItemsPerPage = 10;
+        private List<Doc> _Docs;
+        private Pagination<Doc> _DocPagination;
+
+        public async Task<ActionResult> HomeAdmin(int page = 1)
         {
             // ************* Comentar para trabajar en Home *************
             //var activeUserName = Session["Name"]?.ToString();
@@ -63,12 +70,30 @@ namespace Practica.Controllers
             //}
             //else return RedirectToAction("Login", "Login");
 
-            List<Doc> docs = await GetDocs();
-            return View(docs);
+            int _TotalItems = await GetDocsCount();
+
+            _Docs = await GetDocsWithPagination(page, _ItemsPerPage);
+
+            var _TotalPages = (int)Math.Ceiling((double)_TotalItems / _ItemsPerPage);
+
+            _DocPagination = new Pagination<Doc>()
+            {
+                ItemsPerPage = _ItemsPerPage,
+                TotalItems = _TotalItems,
+                TotalePages = _TotalPages,
+                ActualPage = page,
+                Result = _Docs
+            };
+            // Enviamos a la Vista la 'Clase de paginación'
+            return View(_DocPagination);
         }
-        private async Task<List<Doc>> GetDocs()
+        private async Task<int> GetDocsCount()
         {
-            return await docsR.GetDocsList();
+            return await docsR.GetItemsCount();
+        }
+        private async Task<List<Doc>> GetDocsWithPagination(int page,int itemsPerPage)
+        {
+            return await docsR.GetDocsListWithPagination(page,itemsPerPage);
         }
     }
 }

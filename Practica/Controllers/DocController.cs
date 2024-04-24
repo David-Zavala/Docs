@@ -1,9 +1,11 @@
 ﻿using Practica.Data.Models;
 using Practica.Data.Repositories;
 using Practica.Data.Respositories;
+using Practica.Models;
 using Practica.Models.FormModels;
 using System;
-using System.Globalization;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -101,6 +103,46 @@ namespace Practica.Controllers
             string[] now = DateTime.Now.ToString().Substring(0, 10).Split('/');
             string newFormat = now[2] + '-' + now[1] + '-' + now[0];
             return DateTime.Parse(newFormat);
+        }
+        //[HttpPost]
+        //public async ActionResult Delete(string fileId)
+        //{
+        //    string actualEmail = Session["Email"]?.ToString();
+        //    string[] fileIdParts = fileId.Split('_');
+        //    string fileEmail = fileIdParts.Take(fileIdParts.Length - 2).ToString();
+
+        //    UserToReturn actualUser = await usersR.GetUserByEmail(actualEmail);
+
+        //    if (actualUser == null || (actualUser.AdminRole != true && actualEmail != fileEmail)) return HttpNotFound("Usuario no valido para realizar esta acción");
+
+        //    Doc actualDoc = await docsR.GetDoc(fileId);
+        //    if (actualDoc == null) return HttpNotFound("El documento que se busca eliminar no existe");
+        //    try
+        //    {
+
+        //    }
+        //    catch 
+        //    { 
+            
+        //    }
+        //}
+
+        [HttpGet]
+        public ActionResult DownloadImage(string filePath)
+        {
+            var imagePath = Server.MapPath(filePath);
+
+            if (System.IO.File.Exists(imagePath))
+            {
+                Response.AddHeader("Content-Disposition", "attachment;filename=DealerAdTemplate.png");
+                Response.WriteFile(imagePath);
+                Response.End();
+                return null;
+            }
+            else
+            {
+                return HttpNotFound();
+            }
         }
     }
 }
