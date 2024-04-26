@@ -8,6 +8,7 @@ namespace Practica.Models
         public int ItemsPerPage { get; set; }
         public int TotalItems { get; set; }
         public int TotalePages { get; set; }
+        public string Filter { get; set; }
         public List<T> Result { get; set; }
     }
 }

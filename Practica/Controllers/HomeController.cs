@@ -33,18 +33,18 @@ namespace Practica.Controllers
             //}
 
             // ************* Comentar para trabajar en Home *************
-            //var activeUserName = Session["Name"]?.ToString();
-            //var activeUserEmail = Session["Email"]?.ToString();
-            //if (activeUserName != null && activeUserEmail != null)
-            //{
-            //    UserToReturn activeUser = await usersR.GetUserByEmail(activeUserEmail);
-            //    bool activeUserRole = activeUser.AdminRole;
-            //    if (activeUserRole == true) return RedirectToAction("HomeAdmin");
-            //    else return View();
-            //}
-            //else return RedirectToAction("Login", "Login");
+            var activeUserName = Session["Name"]?.ToString();
+            var activeUserEmail = Session["Email"]?.ToString();
+            if (activeUserName != null && activeUserEmail != null)
+            {
+                UserToReturn activeUser = await usersR.GetUserByEmail(activeUserEmail);
+                bool activeUserRole = activeUser.AdminRole;
+                if (activeUserRole == true) return RedirectToAction("HomeAdmin");
+                else return View();
+            }
+            else return RedirectToAction("Login", "Login");
 
-            return RedirectToAction("HomeAdmin");
+            //return RedirectToAction("HomeAdmin");
         }
 
         private readonly int _ItemsPerPage = 10;
@@ -54,34 +54,34 @@ namespace Practica.Controllers
         public async Task<ActionResult> HomeAdmin(int page = 1, string filter = "None")
         {
             // ************* Comentar para trabajar en Home *************
-            //var activeUserName = Session["Name"]?.ToString();
-            //var activeUserEmail = Session["Email"]?.ToString();
-            //if (activeUserName != null && activeUserEmail != null)
-            //{
-            //    UserToReturn activeUser = await usersR.GetUserByEmail(activeUserEmail);
-            //    bool activeUserRole = activeUser.AdminRole;
-
-            //    if (activeUserRole == true)
-            //    {
-            //        List<Doc> docs = await GetDocs();
-            //        return View(docs);
-            //    }
-            //    else return RedirectToAction("Home");
-            //}
-            //else return RedirectToAction("Login", "Login");
-
-            _Docs = await GetDocsWithConditions(page, _ItemsPerPage, filter);
-            int _TotalItems = _Docs.Count;
-            var _TotalPages = (int)Math.Ceiling((double)_TotalItems / _ItemsPerPage);
-            _DocPagination = new Pagination<Doc>()
+            var activeUserName = Session["Name"]?.ToString();
+            var activeUserEmail = Session["Email"]?.ToString();
+            if (activeUserName != null && activeUserEmail != null)
             {
-                ItemsPerPage = _ItemsPerPage,
-                TotalItems = _TotalItems,
-                TotalePages = _TotalPages,
-                ActualPage = page,
-                Result = _Docs
-            };
-            return View(_DocPagination);
+                UserToReturn activeUser = await usersR.GetUserByEmail(activeUserEmail);
+                bool activeUserRole = activeUser.AdminRole;
+
+                if (activeUserRole == true)
+                {
+                    int _TotalItems = await GetDocsCount();
+                    _Docs = await GetDocsWithConditions(page, _ItemsPerPage, filter);
+                    var _TotalPages = (int)Math.Ceiling((double)_TotalItems / _ItemsPerPage);
+                    _DocPagination = new Pagination<Doc>()
+                    {
+                        ItemsPerPage = _ItemsPerPage,
+                        TotalItems = _TotalItems,
+                        TotalePages = _TotalPages,
+                        ActualPage = page,
+                        Filter = filter,
+                        Result = _Docs
+                    };
+                    return View(_DocPagination);
+                }
+                else return RedirectToAction("Home");
+            }
+            else return RedirectToAction("Login", "Login");
+
+            
         }
         private async Task<int> GetDocsCount()
         {

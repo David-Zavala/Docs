@@ -53,4 +53,12 @@ $(document).ready(function () {
             }
         });
     });
+    $("#SearchFilter-Button").on('click', function () {
+        filter = $('#SearchFilter').val();
+        console.log(filter);
+    });
+    $("#SearchForm").on('submit', function () {
+        filter = $('#SearchFilter').val();
+        console.log(filter);
+    });
 });
