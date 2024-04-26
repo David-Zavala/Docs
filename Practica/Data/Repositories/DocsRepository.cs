@@ -23,6 +23,29 @@ namespace Practica.Data.Repositories
 
             return docs;
         }
+        public async Task<List<Doc>> GetDocsListWithPaginationAndFilter(int page, int itemsPerPage, string filter)
+        {
+            filter = filter.ToLower();
+            List<Doc> docs = await db.Doc
+                .Where(
+                    x => x.Id.ToLower().Contains(filter) || 
+                    x.Name.ToLower().Contains(filter) || 
+                    x.Email.ToLower().Contains(filter) ||
+                    x.RegisteredEmail.ToLower().Contains(filter) ||
+                    x.BirthDate.ToString().ToLower().Contains(filter) ||
+                    x.Age.ToString().ToLower().Contains(filter) ||
+                    x.Education.ToLower().Contains(filter) ||
+                    x.DocPath.ToLower().Contains(filter) ||
+                    x.LastUpdate.ToString().ToLower().Contains(filter) ||
+                    x.Count.ToString().ToLower().Contains(filter)
+                )
+                .OrderBy(x => x.LastUpdate)
+                .Skip((page - 1) * itemsPerPage)
+                .Take(itemsPerPage)
+                .ToListAsync();
+
+            return docs;
+        }
         public async Task<int> GetItemsCount()
         {
             return await db.Doc.CountAsync();
