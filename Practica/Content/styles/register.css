@@ -3,14 +3,12 @@
     border-bottom: 2px dotted white;
 }
 
-
-/* CSS para hovers */
 .hovertext:before {
     content: attr(message);
     visibility: hidden;
     opacity: 0;
     width: 200px;
-    background-color:rgb(103, 103, 7);
+    background-color: rgb(103, 103, 7);
     color: #fff;
     text-align: center;
     border-radius: 5px;
@@ -28,24 +26,33 @@
     opacity: 1;
     visibility: visible;
 }
-/* ---------------- */
 
-tr {
-    color:white;
-}
-
-th {
-    font-size: 18px;
-}
-
-td {
-    border-right: 1px dashed white;
-    border-left: 1px dashed white;
-    border-spacing: 4px;
-}
-
-.align-button {
+.form-outline {
     display: flex;
-    flex-direction:column;
-    justify-content:space-around;
+    flex-direction: column;
+    align-items: center;
+    justify-items: baseline;
+}
+
+.form-control {
+    font-size: 15px;
+    border-width: 3px;
+}
+
+.checkbox {
+    display: none;
+}
+
+.checkbox-label {
+    font-size: 15px;
+    border-width: 3px;
+    width: 100px;
+    height: 20px;
+    background-color: #ccc;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.checkbox:checked + .checkbox-label {
+    border-color: green;
 }

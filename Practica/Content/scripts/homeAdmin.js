@@ -55,6 +55,9 @@ $(document).ready(function () {
     });
     $("#SearchFilter-Button").on('click', function () {
         filter = $('#SearchFilter').val();
+        $.ajax({
+            url: 'Home/HomeAdmin'
+        });
         console.log(filter);
     });
     $("#SearchForm").on('submit', function () {

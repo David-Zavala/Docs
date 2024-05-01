@@ -234,8 +234,10 @@
     <Content Include="Content\scripts\home.js" />
     <Content Include="Content\scripts\layoutTopMargin.js" />
     <Content Include="Content\scripts\login.js" />
+    <Content Include="Content\scripts\register.js" />
     <Content Include="Content\styles\homeAdmin.css" />
     <Content Include="Content\styles\modal.css" />
+    <Content Include="Content\styles\register.css" />
     <Content Include="Views\Shared\_LayoutLogin.cshtml" />
     <Content Include="Content\styles\home.css" />
     <Content Include="Content\styles\login.css" />

@@ -37,14 +37,13 @@ namespace Practica.Controllers
 
                 }
 
-                ModelState.AddModelError("", "Invalid username or password.");
+                return Json(new { success = false, message = "Los datos de usuario no son válidos. Si esto es un problema contactar a un administrador" });
 
             }
             catch (Exception)
             {
-                ModelState.AddModelError("", "Invalid username or password.");
+                return Json(new { success = false, message = "Los datos de usuario no son válidos. Si esto es un problema contactar a un administrador" });
             }
-            return RedirectToAction("Login", "Login");
         }
 
         [HttpGet]

@@ -57,14 +57,52 @@ $(document).ready(function () {
     $('#Password').on('blur', function () {
         changeValidationColor($('#Password'), validations.Password);
     });
-    $('#toRegisterButton').on('click', function () {
-        $.ajax({
-            url: 'Login/Register',
-            type: 'GET'
-        });
+    $('#closeModal').on('click', function () {
+        $("#account-modal").addClass('hidden');
+    });
+    $("#account-modal").on('click', function (e) {
+        if (e.target === this) {
+            $("#account-modal").addClass('hidden');
+        }
+    });
+    $("#LoginButton").on('click', function () {
+        if ($('#LoginButton').prop('disabled') == false) {
+            sendLoginRequest();
+        }
     });
 });
 async function emailControl(email) {
     await validateEmail(email);
     checkLoginButton();
+}
+async function sendLoginRequest() {
+    $("#charging-icon").removeClass('hidden');
+
+    var loginData = new FormData();
+    loginData.append('Email',$('#Email').val());
+    loginData.append('Password',$('#Password').val());
+
+    await $.ajax({
+        url: '/Account/Login',
+        type: 'POST',
+        data: loginData,
+        processData: false,
+        contentType: false,
+        success: function (response) {
+            if (response.success == false) {
+                console.log("Error en login: ", response.message);
+                $("#account-modal").removeClass('hidden');
+            }
+            else {
+                location.reload();
+            }
+        },
+        error: function (xhr, status, error) {
+            console.error('Error en el login:', error);
+            $('.Register-message').show();
+            $('.Register-message').text(error);
+        }
+    });
+
+    $("#charging-icon").addClass('hidden');
 }

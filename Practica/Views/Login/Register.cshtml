@@ -1,16 +1,31 @@
 ﻿
 @{
     ViewBag.Title = "Register";
-    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+    Layout = "~/Views/Shared/_LayoutHomeAdmin.cshtml";
 }
 
 @model Practica.Models.FormModels.Register
 
 @section styles {
-    <link href="~/Content/styles/home.css" rel="stylesheet" />
+    <link href="~/Content/styles/register.css" rel="stylesheet" />
+    <link href="~/Content/styles/modal.css" rel="stylesheet" />
 }
 
 <section class="vh-100 gradient-custom">
+    <!-- Loading modal -->
+    <div id="charging-icon" class="modal-background hidden">
+        <div id="loading-icon" class="loading-content">
+            <div style="color: rgb(129, 129, 9); text-decoration:solid; text-decoration-color: rgb(129, 129, 9);">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-file-earmark-check" viewBox="0 0 16 16">
+                    <path d="M10.854 7.854a.5.5 0 0 0-.708-.708L7.5 9.793 6.354 8.646a.5.5 0 1 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0z" />
+                    <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z" />
+                </svg>
+                <h2>Completando registro...</h2>
+            </div>
+        </div>
+    </div>
+    <!------------------->
+
     <div class="container py-5 h-100">
         <div class="row d-flex justify-content-center align-items-center h-100">
             <div class="col-12 col-md-8 col-lg-6 col-xl-5">
@@ -43,88 +58,38 @@
                                     })
                                 </div>
 
-                                <div class="disprow form-outline form-white mb-4 custom-align">
-                                    <div>
-                                        <div class="date-input">
-                                            @Html.TextBoxFor(m => m.Day, new
-                                            {
-                                               @class = "short form-control form-control-lg",
-                                               type = "number",
-                                               min = "01",
-                                               max = "31",
-                                               inputmode = "numeric",
-                                               maxlength = "2",
-                                               placeholder = "DD"
-                                            })
-                                            <span>/</span>
-                                            @Html.TextBoxFor(m => m.Month, new
-                                               {
-                                                   @class = "short form-control form-control-lg",
-                                                   type = "number",
-                                                   min = "01",
-                                                   max = "12",
-                                                   inputmode = "numeric",
-                                                   maxlength = "2",
-                                                   placeholder = "MM"
-                                               })
-                                            <span>/</span>
-                                            @Html.TextBoxFor(m => m.Year, new
-                                            {
-                                               @class = "long form-control form-control-lg",
-                                               type = "number",
-                                               min = "0000",
-                                               max = "2024",
-                                               inputmode = "numeric",
-                                               maxlength = "4",
-                                               placeholder = "YYYY"
-                                            })
-                                        </div>
-                                        <label class="form-label hovertext" for="date-input" message="Debe ser una fecha válida">Fecha de nacimiento*</label>
-                                    </div>
-                                </div>
-                                <div class="disprow form-outline form-white mb-4 education-container">
-                                    <div class="selectContainer">
-                                        @Html.DropDownListFor(m => m.EducationLevel, new SelectList(new List<SelectListItem>{
-                                            new SelectListItem { Text = "Selecciona una opción", Value = "0" },
-                                            new SelectListItem { Text = "Maestría", Value = "Maestria" },
-                                            new SelectListItem { Text = "Carrera", Value = "Carrera" },
-                                            new SelectListItem { Text = "Preparatoria", Value = "Preparatoria" },
-                                            new SelectListItem { Text = "Educación básica", Value = "Educacion basica" },
-                                            new SelectListItem { Text = "Otro", Value = "AddOther" }
-                                        }, "Value", "Text"), new { @class = "form-control form-control-lg" })
-                                        @Html.TextBoxFor(m => m.EducationLevelOtherOption, new { @class = "form-control form-control-lg OtherInput", id = "OtherOption", style = "display:none;" })
-                                        @Html.LabelFor(m => m.EducationLevel, "Nivel educativo*", new
-                                        {
-                                            @class = "form-label hovertext",
-                                       message = "Debe seleccionar una opción o elegir la opción de Otro y escribir una usted. En caso de elegir Otro solo debe contener letras minúsculas o mayúsculas, se aceptan espacios y acentos."
-                                   })
-                                    </div>
-                                    <div class="selectContainer">
-                                        @Html.DropDownListFor(m => m.EducationProgress, new SelectList(new List<SelectListItem>{
-                                            new SelectListItem { Text = "Selecciona una opción", Value = "0" },
-                                            new SelectListItem { Text = "Terminada", Value = "Terminada" },
-                                            new SelectListItem { Text = "En progreso", Value = "En progreso" },
-                                            new SelectListItem { Text = "No terminada", Value = "No terminada" }
-                                        }, "Value", "Text"), new { @class = "form-control form-control-lg" })
-                                        @Html.LabelFor(m => m.EducationProgress, "Progreso*", new
-                                        {
-                                            @class = "form-label hovertext",
-                                       message = "Debe seleccionar una opción."
-                                        })
-                                    </div>
+                                <div class="form-outline form-white mb-4 custom-align">
+                                    @Html.TextBoxFor(m => m.Password, new { @class = "form-control form-control-lg" })
+                                    @Html.LabelFor(m => m.Password, "Contraseña*", new
+                                    {
+                                        @class = "form-label hovertext",
+                                        message = "Debe contener por lo menos 8 caracteres, una minuscula, una mayuscula, un signo especial (*,@,#,etc.) y evita que este relacionado con algo personal."
+                                    })
                                 </div>
 
-                                <div class="form-outline form-white mb-4">
-                                    @Html.TextBoxFor(model => model.Doc, new { @class = "SelectedDocText", type = "file", accept = ".jpg, .pdf" })<br />
-                                    @Html.LabelFor(m => m.Doc, "Documento*", new { @class = "form-label hovertext", message = "El archivo solo puede ser de tipo pdf, jpg o jpeg" })<br />
-                                    <input id="DeleteDoc" class="btn btn-outline-light btn-md px-5" type="button" value="Eliminar archivo" />
+                                <div class="form-outline form-white mb-4 custom-align">
+                                    @Html.TextBoxFor(m => m.ConfirmPassword, new { @class = "form-control form-control-lg" })
+                                    @Html.LabelFor(m => m.ConfirmPassword, "Confirma contraseña*", new
+                                    {
+                                        @class = "form-label hovertext",
+                                        message = "Debe ser igual que la contraseña ingresada."
+                                    })
                                 </div>
 
-                                <input id="RegisterDocButton" class="btn btn-outline-light btn-lg px-5" value="Completar registro" />
+                                <div class="">
+                                    @Html.CheckBoxFor(m => m.AdminRole, new { @class = "checkbox" })
+                                    @Html.LabelFor(m => m.AdminRole, new
+                                    {
+                                        @class = "form-label hovertext checkbox-label form-control",
+                                        message = "Seleccionelo para indicar que este usuario sera administrador."
+                                    })
+                                </div>
+
+                                <input id="RegisterButton" class="btn btn-outline-light btn-lg px-5" value="Completar registro" />
 
                             }
                             <div class="alert alert-success mt-2 Register-message" style="display: none;">
-                                @Html.ValidationMessage("", new { @class = "Register-message", style = "display: none;" })
+                                @Html.ValidationMessage("", new { @class = "Register-message" })
                             </div>
                         </div>
 
@@ -134,3 +99,7 @@
         </div>
     </div>
 </section>
+
+@section scripts {
+    <script src="~/Content/scripts/register.js"></script>
+}

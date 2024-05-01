@@ -7,9 +7,51 @@
 
 @section styles {
     <link href="~/Content/styles/login.css" rel="stylesheet" />
+    <link href="~/Content/styles/modal.css" rel="stylesheet" />
 }
 
 <section class="vh-100 gradient-custom">
+    <!-- Loading modal -->
+    <div id="charging-icon" class="modal-background hidden">
+        <div id="loading-icon" class="loading-content">
+            <div style="color: rgb(129, 129, 9); text-decoration:solid; text-decoration-color: rgb(129, 129, 9);">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-file-earmark-check" viewBox="0 0 16 16">
+                    <path d="M10.854 7.854a.5.5 0 0 0-.708-.708L7.5 9.793 6.354 8.646a.5.5 0 1 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0z" />
+                    <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z" />
+                </svg>
+                <h2>Completando registro...</h2>
+            </div>
+        </div>
+    </div>
+    <!------------------->
+
+    <!-- Modal for invalid account -->
+        <div id="account-modal" class="modal-background hidden">
+            <div class="details-modal">
+                <div class="disprow">
+                    <div class="details-modal-title">
+                        <h1>Cuenta no encontrada</h1>
+                    </div>
+                    <div class="btn btn-outline-light btn-sm">
+                        <a class="btn btn-outline-light btn-sm" id="closeModal">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="black" class="bi bi-x-square" viewBox="0 0 16 16">
+                                <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z" />
+                                <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                <div class="details-modal-content">
+                    <p style="color:black;">
+                        Correo electrónico o contraseña incorrecta.<br />
+                        Si estas seguro de que ingresaste correctamenete los datos.<br />
+                        pide ayuda a un administrador para entrar a tu cuenta.
+                    </p>
+                </div>
+            </div>
+        </div>
+    <!------------------------->
+
     <div class="container py-5 h-100">
         <div class="row d-flex justify-content-center align-items-center h-100">
             <div class="col-12 col-md-8 col-lg-6 col-xl-5">
@@ -26,27 +68,20 @@
 
                                 <div class="form-outline form-white mb-4">
                                     @Html.TextBoxFor(m => m.Email, new { @class = "form-control form-control-lg" })
-                                    @Html.LabelFor(m => m.Email, "Correo Electrónico*", new { @class = "form-label" })
+                                    @Html.LabelFor(m => m.Email, "Correo Electrónico*", new { @class = "form-label", value = Model.Email })
                                 </div>
 
                                 <div class="form-outline form-white mb-4">
                                     @Html.PasswordFor(m => m.Password, new { @class = "form-control form-control-lg" })
-                                    @Html.LabelFor(m => m.Password, "Contraseña*", new { @class = "form-label" })
+                                    @Html.LabelFor(m => m.Password, "Contraseña*", new { @class = "form-label", value = Model.Password })
 
                                     <p class="small mb-5 pb-lg-2"><a class="text-white-50" href="/">Olvidaste tu contraseña?</a></p>
                                 </div>
 
-                                <input id="LoginButton" class="btn btn-outline-light btn-lg px-5" type="submit" value="Iniciar Sesión" disabled />
+                                <input id="LoginButton" class="btn btn-outline-light btn-lg px-5" type="button" value="Iniciar Sesión" disabled />
                             }
 
                         </div>
-
-                        <div>
-                            <p class="mb-0">
-                                No tienes una cuenta? <a id="toRegisterButton" class="text-white-50 fw-bold">Registrate</a>
-                            </p>
-                        </div>
-
                     </div>
                 </div>
             </div>
