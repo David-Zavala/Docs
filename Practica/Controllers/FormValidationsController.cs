@@ -28,6 +28,21 @@ namespace Practica.Controllers
             return 1;
         }
         [HttpGet]
+        public int CheckPassword(string password)
+        {
+            //string pattern = @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$";
+            //string pattern = @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&#.]{8,}$";
+            //string pattern = @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#.]{8,}$";
+            //string pattern = @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#.\-+\[\]])[A-Za-z\d@$!%*?&#.\-+\[\]]{8,}$";
+            string pattern = @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#.\-+\[\]\(\)])[A-Za-z\d@$!%*?&#.\-+\[\]\(\)]{8,}$";
+
+
+
+            if (Regex.IsMatch(password, pattern)) return 1;
+            
+            return 0;
+        }
+        [HttpGet]
         public bool CheckNumber(NumberObj numberObj)
         {
             if (numberObj == null) return false;

@@ -329,8 +329,6 @@ async function docControl(doc) {
 async function sendRegisterRequest() {
     $("#charging-icon").removeClass('hidden');
 
-    var registerMessage = "";
-
     var docData = new FormData();
     docData.append('Name', DocForm.Name);
     docData.append('Email', DocForm.Email);

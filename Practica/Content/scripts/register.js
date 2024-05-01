@@ -1,4 +1,4 @@
-﻿var validations = { Name: false, Email: false, Password: false, ConfirmPassword: false, AdminRole: false };
+﻿var validations = { Name: false, Email: false, Password: false, ConfirmPassword: false};
 var DocForm = {
     Name: "",
     Email: "",
@@ -7,7 +7,7 @@ var DocForm = {
     AdminRole: false,
 }
 function checkRegisterButton() {
-    if (validations.Name && validations.Email && validations.Password && validations.ConfirmPassword && validations.AdminRole)
+    if (validations.Name && validations.Email && validations.Password && validations.ConfirmPassword)
         $('#RegisterButton').prop('disabled', false);
     else
         $('#RegisterButton').prop('disabled', true);
@@ -102,13 +102,19 @@ $(document).ready(function () {
         var confirmPassword = $(this).val();
         if (originalPassword == confirmPassword) validations.ConfirmPassword = true;
         changeValidationColor($('#ConfirmPassword'), validations.ConfirmPassword);
+        checkRegisterButton();
     });
     $('#closeModal').on('click', function () {
-        $("#account-modal").addClass('hidden');
+        $(this).addClass('hidden');
     });
-    $("#account-modal").on('click', function (e) {
+    $("#register-modal").on('click', function (e) {
         if (e.target === this) {
-            $("#account-modal").addClass('hidden');
+            $("#register-modal").addClass('hidden');
+        }
+    });
+    $("#register-modal-success").on('click', function (e) {
+        if (e.target === this) {
+            $("#register-modal").addClass('hidden');
         }
     });
     $("#LoginButton").on('click', function () {
@@ -117,7 +123,19 @@ $(document).ready(function () {
         }
     });
     $("#AdminRole").on('change', function () {
-        console.log($(this).prop('checked'));
+        role = $(this).prop('checked');
+        if (role) {
+            $(".checkbox-label").addClass("border-green");
+            $(".checkbox-label").text("Administrador");
+        }
+        else {
+            $(".checkbox-label").removeClass("border-green");
+            $(".checkbox-label").text("Usuario");
+        }
+        DocForm.AdminRole = role;
+    });
+    $("#RegisterButton").on('click', function () {
+        sendRegisterRequest();
     });
 });
 async function nameControl(name) {
@@ -130,34 +148,37 @@ async function emailControl(email) {
 }
 async function passwordControl(password) {
     await validatePassword(password);
-    checkLoginButton();
+    checkRegisterButton();
 }
 async function sendRegisterRequest() {
     $("#charging-icon").removeClass('hidden');
 
-    var loginData = new FormData();
-    loginData.append('Email', $('#Email').val());
-    loginData.append('Password', $('#Password').val());
+    var registerData = new FormData();
+    registerData.append('Name', DocForm.Name);
+    registerData.append('Email', DocForm.Email);
+    registerData.append('Password', $('#Password').val());
+    registerData.append('ConfirmPassword', $('#ConfirmPassword').val());
+    registerData.append('AdminRole', $('#AdminRole').val());
 
     await $.ajax({
-        url: '/Account/Login',
+        url: '/Account/Register',
         type: 'POST',
-        data: loginData,
+        data: registerData,
         processData: false,
         contentType: false,
         success: function (response) {
             if (response.success == false) {
-                console.log("Error en login: ", response.message);
-                $("#account-modal").removeClass('hidden');
+                console.log("Error en el registro: ", response.message);
+                $("#register-modal").removeClass('hidden');
             }
             else {
-                location.reload();
+                console.log("Registro exitoso: ", response.message);
+                $("#register-modal-success").removeClass('hidden');
             }
         },
         error: function (xhr, status, error) {
-            console.error('Error en el login:', error);
-            $('.Register-message').show();
-            $('.Register-message').text(error);
+            console.error('Error en la solicitud de registro: ', error);
+            $("#register-modal").removeClass('hidden');
         }
     });
 

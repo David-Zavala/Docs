@@ -8,6 +8,8 @@ using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using System.Data.Entity.Migrations;
+using System.Web;
 
 namespace Practica.Data.Respositories
 {
@@ -66,9 +68,20 @@ namespace Practica.Data.Respositories
             };
         }
 
-        public Task<UserToReturn> RegisterUser(User user)
+        public async Task<UserToReturn> RegisterUser(User user)
         {
-            throw new NotImplementedException();
+            try
+            {
+                db.User.AddOrUpdate(user);
+                await db.SaveChangesAsync();
+                
+                UserToReturn registeredUser = await GetUserByEmail(user.Email);
+                return registeredUser;
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Problema con la base de datos, no se pudo realizar el registro.", e);
+            }
         }
 
         public Task<UserToReturn> UpdateUser(string email)
