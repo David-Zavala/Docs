@@ -48,23 +48,24 @@ namespace Practica.Controllers
         public async Task<ActionResult> HomeAdmin(int page = 1, string filter = "None")
         {
             // ************* Comentar para trabajar en Home *************
-            int userResult = await UserIsAdmin();
-            if (userResult == -1) return RedirectToAction("Login", "Login");
-            if (userResult == 0) return RedirectToAction("Home");
+            //int userResult = await UserIsAdmin();
+            //if (userResult == -1) return RedirectToAction("Login", "Login");
+            //if (userResult == 0) return RedirectToAction("Home");
 
-            int _TotalItems = await GetDocsCount();
-            _Docs = await GetDocsWithConditions(page, _ItemsPerPage, filter);
-            var _TotalPages = (int)Math.Ceiling((double)_TotalItems / _ItemsPerPage);
-            _DocPagination = new Pagination<Doc>()
-            {
-                ItemsPerPage = _ItemsPerPage,
-                TotalItems = _TotalItems,
-                TotalePages = _TotalPages,
-                ActualPage = page,
-                Filter = filter,
-                Result = _Docs
-            };
-            return View(_DocPagination);
+            //int _TotalItems = await GetDocsCount();
+            //_Docs = await GetDocsWithConditions(page, _ItemsPerPage, filter);
+            //var _TotalPages = (int)Math.Ceiling((double)_TotalItems / _ItemsPerPage);
+            //_DocPagination = new Pagination<Doc>()
+            //{
+            //    ItemsPerPage = _ItemsPerPage,
+            //    TotalItems = _TotalItems,
+            //    TotalePages = _TotalPages,
+            //    ActualPage = page,
+            //    Filter = filter,
+            //    Result = _Docs
+            //};
+            List<Doc> Docs = await docsR.GetDocsList();
+            return View(Docs);
         }
         private async Task<int> GetDocsCount()
         {

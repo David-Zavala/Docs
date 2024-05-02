@@ -229,6 +229,10 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
+    <Content Include="Content\DataTables\datatables.css" />
+    <Content Include="Content\DataTables\datatables.js" />
+    <Content Include="Content\DataTables\datatables.min.css" />
+    <Content Include="Content\DataTables\datatables.min.js" />
     <Content Include="Content\icons\box-arrow-right.svg" />
     <Content Include="Content\scripts\homeAdmin.js" />
     <Content Include="Content\scripts\home.js" />
@@ -278,6 +282,7 @@
     <Content Include="Views\Login\Register.cshtml" />
     <Content Include="Views\Shared\_LayoutHomeAdmin.cshtml" />
     <Content Include="Views\Home\HomeAdmin.cshtml" />
+    <Content Include="Views\Home\HomeAdminRespaldo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

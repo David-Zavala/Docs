@@ -23,9 +23,9 @@ namespace Practica.Controllers
         }
         public async Task<ActionResult> Register()
         {
-            //int userResult = await UserIsAdmin();
-            //if (userResult == -1) return RedirectToAction("Login", "Login");
-            //if (userResult == 0) return RedirectToAction("Home", "Home");
+            int userResult = await UserIsAdmin();
+            if (userResult == -1) return RedirectToAction("Login", "Login");
+            if (userResult == 0) return RedirectToAction("Home", "Home");
             return View();
         }
         private async Task<int> UserIsAdmin()

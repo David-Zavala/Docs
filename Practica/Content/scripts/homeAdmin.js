@@ -1,4 +1,5 @@
 $(document).ready(function () {
+    $('#DocsTable').DataTable();
     $('.ButtonViewJPG').on('click', function () {
         var filePath = $(this).val();
         var fileId = $(this).attr('fileId');

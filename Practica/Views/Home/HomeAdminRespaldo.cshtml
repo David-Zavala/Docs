@@ -3,12 +3,11 @@
     Layout = "~/Views/Shared/_LayoutHomeAdmin.cshtml";
 }
 
-@model List<Practica.Data.Models.Doc>
+@model Practica.Models.Pagination<Practica.Data.Models.Doc>
 
 @section styles {
     <link href="~/Content/styles/homeAdmin.css" rel="stylesheet" />
     <link href="~/Content/styles/modal.css" rel="stylesheet" />
-    <link hrek="~/Content/DataTables/datatables.min.css" rel="stylsheet" />
 }
 
 <section class="vh-100 gradient-custom">
@@ -84,8 +83,13 @@
                     <h2 class="fw-bold mb-2 text-uppercase">Documentos Registrados</h2>
                     <p class="text-white-50 mb-3">Gestión de documentos</p>
 
+                    <div class="disprow">
+                        <input class="form-control form-control-lg" id="SearchFilter" name="SearchFilter" type="text" value="" placeholder="Buscar...">
+                        <a id="SearchFilter-Button" name="SearchFilter-Button" class="btn btn-sm btn-outline-light">Buscar</a>
+                    </div>
+
                     <div class="table-responsive text-white">
-                        <table id="DocsTable" class="table">
+                        <table class="table">
                             <thead>
                                 <tr>
                                     <th>Id</th>
@@ -100,7 +104,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach (var doc in Model)
+                                @foreach (var doc in Model.Result)
                                 {
                                     if (doc.DocPath.EndsWith(".jpg"))
                                     {
@@ -163,6 +167,59 @@
                             </tbody>
                         </table>
                     </div>
+
+                    @if (Model.Result.Count() > 0)
+                    {
+                        <span>
+                            <strong>@Model.TotalItems</strong> documentos encontrados
+                        </span>
+                        <span>&nbsp;|&nbsp;</span>
+                        <span>
+                            Página <strong>@(Model.ActualPage)</strong> de
+                            <strong>@Model.TotalePages</strong>
+                        </span>
+                        <span>&nbsp;|&nbsp;</span>
+                    }
+                    else
+                    {
+                        <span>No hay resultados para esta búsqueda</span>
+                        <span>&nbsp;|&nbsp;</span>
+                    }
+
+                    @if (Model.ActualPage > 1)
+                    {
+                        @Html.ActionLink("<<", "HomeAdmin", "Home", new { page = 1, filter = Model.Filter },
+                                        new { @class = "btn btn-sm btn-outline-light" })
+                        <span></span>
+                        @Html.ActionLink("Anterior", "HomeAdmin", "Home", new { page = Model.ActualPage - 1, filter = Model.Filter },
+                                        new { @class = "btn btn-sm btn-outline-light" })
+                    }
+                    else
+                    {
+                        @Html.ActionLink("<<", "HomeAdmin", "Home", new { page = 1, filter = Model.Filter },
+                                        new { @class = "btn btn-sm btn-light disabled" })
+                        <span></span>
+                        @Html.ActionLink("Anterior", "HomeAdmin", "Home", new { page = 1, filter = Model.Filter },
+                                        new { @class = "btn btn-sm btn-light disabled" })
+                    }
+                    <span></span>
+                    @if (Model.ActualPage < Model.TotalePages)
+                    {
+                        @Html.ActionLink("Siguiente", "HomeAdmin", "Home", new { page = Model.ActualPage + 1, filter = Model.Filter },
+                                        new { @class = "btn btn-sm btn-outline-light" })
+                        <span></span>
+                        @Html.ActionLink(">>", "HomeAdmin", "Home", new { page = Model.TotalePages, filter = Model.Filter },
+                                        new { @class = "btn btn-sm btn-outline-light" })
+                    }
+                    else
+                    {
+                        @Html.ActionLink("Siguiente", "HomeAdmin", "Home", new { page = Model.TotalePages - 1, filter = Model.Filter },
+                                        new { @class = "btn btn-sm btn-light disabled" })
+                        <span></span>
+                        @Html.ActionLink(">>", "HomeAdmin", "Home", new { page = Model.TotalePages, filter = Model.Filter },
+                                        new { @class = "btn btn-sm btn-light disabled" })
+                    }
+
                 </div>
             </div>
         </div>
@@ -171,5 +228,4 @@
 
 @section scripts {
     <script src="~/Content/scripts/homeAdmin.js"></script>
-    <script src="~/Content/DataTables/datatables.min.js"></script>
 }
