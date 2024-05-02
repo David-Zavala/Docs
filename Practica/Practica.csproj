@@ -233,6 +233,10 @@
     <Content Include="Content\DataTables\datatables.js" />
     <Content Include="Content\DataTables\datatables.min.css" />
     <Content Include="Content\DataTables\datatables.min.js" />
+    <Content Include="Content\DataTables\Old\datatables.css" />
+    <Content Include="Content\DataTables\Old\datatables.js" />
+    <Content Include="Content\DataTables\Old\datatables.min.css" />
+    <Content Include="Content\DataTables\Old\datatables.min.js" />
     <Content Include="Content\icons\box-arrow-right.svg" />
     <Content Include="Content\scripts\homeAdmin.js" />
     <Content Include="Content\scripts\home.js" />
