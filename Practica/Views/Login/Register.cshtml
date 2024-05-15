@@ -25,7 +25,7 @@
         </div>
     </div>
     <!------------------->
-    <!-- Modal for invalid registration -->
+    <!-- Modal for INVALID registration -->
     <div id="register-modal" class="modal-background hidden">
         <div class="details-modal">
             <div class="disprow">
@@ -33,7 +33,7 @@
                     <h1>No se pudo realizar el registro</h1>
                 </div>
                 <div class="btn btn-outline-light btn-sm">
-                    <a class="btn btn-outline-light btn-sm" id="closeModal">
+                    <a class="btn btn-outline-light btn-sm closeModal" fatherModal="register-modal">
                         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="black" class="bi bi-x-square" viewBox="0 0 16 16">
                             <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z" />
                             <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708" />
@@ -46,18 +46,19 @@
                     Algo salio mal con el registro, si esta seguro de que<br />la información es válida, contacte a un administrador.<br />Disculpe las molestias.
                 </p>
             </div>
+            <div class="btn btn-outline-success btn-sm acceptModal" fatherModal="register-modal">Aceptar</div>
         </div>
     </div>
     <!------------------------->
-    <!-- Modal for invalid registration -->
+    <!-- Modal for VALID registration -->
     <div id="register-modal-success" class="modal-background hidden">
         <div class="details-modal" style="border-color: green;">
             <div class="disprow">
                 <div class="details-modal-title">
-                    <h1>No se pudo realizar el registro</h1>
+                    <h1>Nuevo usuario registrado</h1>
                 </div>
                 <div class="btn btn-outline-light btn-sm">
-                    <a class="btn btn-outline-light btn-sm" id="closeModal">
+                    <a class="btn btn-outline-light btn-sm closeModal" fatherModal="register-modal-success">
                         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="black" class="bi bi-x-square" viewBox="0 0 16 16">
                             <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z" />
                             <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708" />
@@ -67,9 +68,10 @@
             </div>
             <div class="details-modal-content">
                 <p style="color:black;">
-                    Algo salio mal con el registro, si esta seguro de que<br />la información es válida, contacte a un administrador.<br />Disculpe las molestias.
+                    El nuevo usuario esta listo para ingresar a la plataforma.
                 </p>
             </div>
+            <div class="btn btn-outline-success btn-sm acceptModal" fatherModal="register-modal-success">Aceptar</div>
         </div>
     </div>
     <!------------------------->
@@ -89,7 +91,7 @@
                             {
 
                                 <div class="form-outline form-white mb-4 custom-align">
-                                    @Html.TextBoxFor(m => m.Name, new { @class = "form-control form-control-lg" })
+                                    @Html.TextBoxFor(m => m.Name, new { @class = "form-control form-control-lg", autocomplete = "name" })
                                     @Html.LabelFor(m => m.Name, "Nombre*", new
                                     {
                                         @class = "form-label hovertext",
@@ -98,7 +100,7 @@
                                 </div>
 
                                 <div class="form-outline form-white mb-4 custom-align">
-                                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control form-control-lg" })
+                                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control form-control-lg", autocomplete = "email" })
                                     @Html.LabelFor(m => m.Email, "Correo Electrónico*", new
                                     {
                                         @class = "form-label hovertext",
@@ -107,7 +109,20 @@
                                 </div>
 
                                 <div class="form-outline form-white mb-4 custom-align">
-                                    @Html.TextBoxFor(m => m.Password, new { @class = "form-control form-control-lg" })
+                                    <div class="disprow">
+                                        @Html.PasswordFor(m => m.Password, new { @class = "form-control form-control-lg", autocomplete = "new-password" })
+                                        <a id="soh" class="ps-2" active="0">
+                                            <svg id="visible" xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="white" class="soh bi bi-eye hidden" viewBox="0 0 16 16">
+                                                <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z" />
+                                                <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0" />
+                                            </svg>
+                                            <svg id="invisible" xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="white" class="soh bi bi-eye-slash" viewBox="0 0 16 16">
+                                                <path d="M13.359 11.238C15.06 9.72 16 8 16 8s-3-5.5-8-5.5a7 7 0 0 0-2.79.588l.77.771A6 6 0 0 1 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755q-.247.248-.517.486z" />
+                                                <path d="M11.297 9.176a3.5 3.5 0 0 0-4.474-4.474l.823.823a2.5 2.5 0 0 1 2.829 2.829zm-2.943 1.299.822.822a3.5 3.5 0 0 1-4.474-4.474l.823.823a2.5 2.5 0 0 0 2.829 2.829" />
+                                                <path d="M3.35 5.47q-.27.24-.518.487A13 13 0 0 0 1.172 8l.195.288c.335.48.83 1.12 1.465 1.755C4.121 11.332 5.881 12.5 8 12.5c.716 0 1.39-.133 2.02-.36l.77.772A7 7 0 0 1 8 13.5C3 13.5 0 8 0 8s.939-1.721 2.641-3.238l.708.709zm10.296 8.884-12-12 .708-.708 12 12z" />
+                                            </svg>
+                                        </a>
+                                    </div>
                                     @Html.LabelFor(m => m.Password, "Contraseña*", new
                                     {
                                         @class = "form-label hovertext",
@@ -116,7 +131,20 @@
                                 </div>
 
                                 <div class="form-outline form-white mb-4 custom-align">
-                                    @Html.TextBoxFor(m => m.ConfirmPassword, new { @class = "form-control form-control-lg" })
+                                    <div class="disprow">
+                                        @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control form-control-lg", autocomplete = "new-password" })
+                                        <a id="soh2" class="ps-2" active="0">
+                                            <svg id="visible2" xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="white" class="soh bi bi-eye hidden" viewBox="0 0 16 16">
+                                                <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z" />
+                                                <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0" />
+                                            </svg>
+                                            <svg id="invisible2" xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="white" class="soh bi bi-eye-slash" viewBox="0 0 16 16">
+                                                <path d="M13.359 11.238C15.06 9.72 16 8 16 8s-3-5.5-8-5.5a7 7 0 0 0-2.79.588l.77.771A6 6 0 0 1 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755q-.247.248-.517.486z" />
+                                                <path d="M11.297 9.176a3.5 3.5 0 0 0-4.474-4.474l.823.823a2.5 2.5 0 0 1 2.829 2.829zm-2.943 1.299.822.822a3.5 3.5 0 0 1-4.474-4.474l.823.823a2.5 2.5 0 0 0 2.829 2.829" />
+                                                <path d="M3.35 5.47q-.27.24-.518.487A13 13 0 0 0 1.172 8l.195.288c.335.48.83 1.12 1.465 1.755C4.121 11.332 5.881 12.5 8 12.5c.716 0 1.39-.133 2.02-.36l.77.772A7 7 0 0 1 8 13.5C3 13.5 0 8 0 8s.939-1.721 2.641-3.238l.708.709zm10.296 8.884-12-12 .708-.708 12 12z" />
+                                            </svg>
+                                        </a>
+                                    </div>
                                     @Html.LabelFor(m => m.ConfirmPassword, "Confirma contraseña*", new
                                     {
                                         @class = "form-label hovertext",

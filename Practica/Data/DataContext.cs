@@ -5,7 +5,7 @@ namespace Practica.Data
 {
     public class DataContext : DbContext
     {
-        public DataContext() : base("DefaultConnection") { }
+        public DataContext() : base("MyHomeConnection") { }
 
         public static DataContext Create() => new DataContext();
 

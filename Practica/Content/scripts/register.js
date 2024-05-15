@@ -97,15 +97,23 @@ $(document).ready(function () {
     $('#Password').on('blur', function () {
         changeValidationColor($('#Password'), validations.Password);
     });
-    $('#ConfirmPassword').on('input', function () {
+    $('#ConfirmPassword, #Password').on('input', function () {
         var originalPassword = $("#Password").val();
-        var confirmPassword = $(this).val();
-        if (originalPassword == confirmPassword) validations.ConfirmPassword = true;
-        changeValidationColor($('#ConfirmPassword'), validations.ConfirmPassword);
-        checkRegisterButton();
+        var confirmPassword = $("#ConfirmPassword").val();
+        if (confirmPassword != "") {
+            if (originalPassword == confirmPassword) validations.ConfirmPassword = true;
+            else validations.ConfirmPassword = false;
+            changeValidationColor($('#ConfirmPassword'), validations.ConfirmPassword);
+            checkRegisterButton();
+        }
     });
-    $('#closeModal').on('click', function () {
-        $(this).addClass('hidden');
+    $('.closeModal').on('click', function () {
+        var modalItem = $(this).attr("fatherModal");
+        $('#'+modalItem).addClass('hidden');
+    });
+    $('.acceptModal').on('click', function () {
+        var modalItem = $(this).attr("fatherModal");
+        $('#' + modalItem).addClass('hidden');
     });
     $("#register-modal").on('click', function (e) {
         if (e.target === this) {
@@ -136,6 +144,38 @@ $(document).ready(function () {
     });
     $("#RegisterButton").on('click', function () {
         sendRegisterRequest();
+    });
+    $("#soh").on('click', function () {
+        if ($("#soh").attr("active") == "0") {
+            console.log("ASDASDAS")
+            $("#invisible").addClass("hidden");
+            $("#visible").removeClass("hidden");
+            $("#Password").attr("type", "text");
+            $("#soh").attr("active", "1");
+        }
+        else if ($("#soh").attr("active") == "1") {
+            console.log("ASDASDAS 2222222")
+            $("#visible").addClass("hidden");
+            $("#invisible").removeClass("hidden");
+            $("#Password").attr("type", "password");
+            $("#soh").attr("active", "0");
+        }
+    });
+    $("#soh2").on('click', function () {
+        if ($("#soh2").attr("active") == "0") {
+            console.log("ASDASDAS")
+            $("#invisible2").addClass("hidden");
+            $("#visible2").removeClass("hidden");
+            $("#ConfirmPassword").attr("type", "text");
+            $("#soh2").attr("active", "1");
+        }
+        else if ($("#soh2").attr("active") == "1") {
+            console.log("ASDASDAS 2222222")
+            $("#visible2").addClass("hidden");
+            $("#invisible2").removeClass("hidden");
+            $("#ConfirmPassword").attr("type", "password");
+            $("#soh2").attr("active", "0");
+        }
     });
 });
 async function nameControl(name) {
@@ -168,8 +208,14 @@ async function sendRegisterRequest() {
         contentType: false,
         success: function (response) {
             if (response.success == false) {
-                console.log("Error en el registro: ", response.message);
-                $("#register-modal").removeClass('hidden');
+                if (response.update == false) {
+                    console.log("Error en el registro: ", response.message);
+                    $("#register-modal").removeClass('hidden');
+                }
+                else {
+                    console.log("Registro ya existente: ", response.message);
+                    $("#updateOrCancel-modal").removeClass('hidden');
+                }
             }
             else {
                 console.log("Registro exitoso: ", response.message);

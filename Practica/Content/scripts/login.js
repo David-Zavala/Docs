@@ -20,6 +20,7 @@ function validateEmail(email) {
                 validations.Email = false;
             }
             changeValidationColor($('#Email'), validations.Email);
+            checkLoginButton();
         }
     });
 }
@@ -60,6 +61,9 @@ $(document).ready(function () {
     $('#closeModal').on('click', function () {
         $("#account-modal").addClass('hidden');
     });
+    $('#acceptModal').on('click', function () {
+        $("#account-modal").addClass('hidden');
+    });
     $("#account-modal").on('click', function (e) {
         if (e.target === this) {
             $("#account-modal").addClass('hidden');
@@ -68,6 +72,22 @@ $(document).ready(function () {
     $("#LoginButton").on('click', function () {
         if ($('#LoginButton').prop('disabled') == false) {
             sendLoginRequest();
+        }
+    });
+    $("#soh").on('click', function () {
+        if ($("#soh").attr("active") == "0") {
+            console.log("ASDASDAS")
+            $("#invisible").addClass("hidden");
+            $("#visible").removeClass("hidden");
+            $("#Password").attr("type","text");
+            $("#soh").attr("active", "1");
+        }
+        else if ($("#soh").attr("active") == "1") {
+            console.log("ASDASDAS 2222222")
+            $("#visible").addClass("hidden");
+            $("#invisible").removeClass("hidden");
+            $("#Password").attr("type", "password");
+            $("#soh").attr("active", "0");
         }
     });
 });

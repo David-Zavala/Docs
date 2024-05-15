@@ -73,9 +73,18 @@ namespace Practica.Data.Repositories
                 return new Doc { Id = "-1", Name = e.ToString() };
             }
         }
-        public Task<Doc> DeleteDoc(string docId)
+        public async Task<Doc> DeleteDoc(Doc doc)
         {
-            throw new NotImplementedException();
+            try
+            {
+                db.Doc.Remove(doc);
+                await db.SaveChangesAsync();
+                return new Doc { Id = "1", Name = "Eliminado exitosamente." };
+            }
+            catch (Exception e)
+            {
+                return new Doc { Id = "-1", Name = e.ToString() };
+            }
         }
 
         public async Task<Doc> GetDoc(string docId)

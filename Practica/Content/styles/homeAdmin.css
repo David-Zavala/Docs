@@ -1,65 +1,86 @@
-﻿.hovertext {
-    position: relative;
-    border-bottom: 2px dotted white;
-}
-
-
-/* CSS para hovers */
-.hovertext:before {
-    content: attr(message);
-    visibility: hidden;
-    opacity: 0;
-    width: 200px;
-    background-color:rgb(103, 103, 7);
-    color: #fff;
-    text-align: center;
-    border-radius: 5px;
-    border-width: 2px;
-    border-color: rgb(129, 129, 9);
-    padding: 5px;
-    transition: opacity 0.4s ease-in-out;
-    position: absolute;
-    z-index: 1;
-    left: 0;
-    top: 110%;
-}
-
-.hovertext:hover:before {
-    opacity: 1;
-    visibility: visible;
-}
-/* ---------------- */
-
-tr {
-    color:white;
-}
-
-th {
-    font-size: 18px;
-}
-
-td {
-    border-right: 1px dashed white;
-    border-left: 1px dashed white;
-    border-spacing: 4px;
-}
-
-.align-button {
+﻿.align-button {
     display: flex;
-    flex-direction:column;
-    justify-content:space-around;
-}
-
-thead tr th {
-    text-align:center;
-    vertical-align:middle;
-}
-tbody tr th {
-    text-align:left;
-    vertical-align:middle;
+    justify-content: center;
 }
 
 .searchForColumn {
     color: white;
     text-align: center;
+}
+
+.DeleteSelectionButton {
+    display: none;
+}
+
+.form-outline {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-items: baseline;
+}
+
+.form-control {
+    font-size: 15px;
+    border-width: 3px;
+}
+
+.checkbox {
+    display: none;
+}
+
+.checkbox-label {
+    width: 100%;
+    height: 100%;
+    padding-top: 100%;
+    padding-bottom: 100%;
+    text-decoration: none;
+    border: solid;
+}
+
+table {
+    color: white;
+}
+
+table > thead > tr > th {
+    text-align: center;
+    vertical-align: middle;
+    font-size: 18px;
+    border-top: 1px solid white;
+    border-right: 1px dashed white;
+    border-bottom: 1px solid white;
+    border-left: 1px dashed white;
+    padding: 0px 10px;
+}
+
+table > tr > th {
+    border-top: 1px solid white;
+    border-right: 1px dashed white;
+    border-bottom: 1px solid white;
+    border-left: 1px dashed white;
+}
+
+table > tbody > tr > td {
+    text-align: left;
+    vertical-align: middle;
+    border-top: 1px solid white;
+    border-right: 1px dashed white;
+    border-bottom: 1px solid white;
+    border-left: 1px dashed white;
+    border-spacing: 4px;
+}
+
+table > tbody > tr > .checkboxCell {
+    text-align: center;
+}
+
+.ddBtn {
+    width: 100%;
+    color: black;
+    border-color: black;
+}
+
+.ddBtn:hover {
+    font-weight:700;
+    text-decoration-color: inherit;
+    border-color: black;
 }

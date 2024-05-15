@@ -27,6 +27,17 @@
     visibility: visible;
 }
 
+.checkbox {
+    display: none;
+}
+
+.checkbox-label {
+    width: 100%;
+    height: 100%;
+    text-decoration: none;
+    border: solid;
+}
+
 .form-outline {
     display: flex;
     flex-direction: column;
@@ -39,19 +50,28 @@
     border-width: 3px;
 }
 
-.checkbox {
-    display: none;
-}
-
-.checkbox-label {
-    width:100%;
-    height:100%;
-    text-decoration: none;
-    border: solid;
-}
-
 .border-green {
     border-color:green;
     color: green;
     font-weight:bolder;
+}
+
+#soh {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#soh:hover .soh {
+    fill: yellow;
+}
+
+#soh2 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#soh2:hover .soh {
+    fill: yellow;
 }

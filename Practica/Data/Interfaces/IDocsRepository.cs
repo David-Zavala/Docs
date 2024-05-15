@@ -11,6 +11,6 @@ namespace Practica.Data.Interfaces
         Task<List<Doc>> GetDocsList();
         Task<Doc> RegisterDoc(Doc doc);
         Task<Doc> UpdateDoc(Doc doc);
-        Task<Doc> DeleteDoc(string docId);
+        Task<Doc> DeleteDoc(Doc doc);
     }
 }

@@ -39,6 +39,9 @@ namespace Practica.Data.Respositories
         public async Task<UserToReturn> GetUserByEmail(string email)
         {
             User user = await db.User.FindAsync(email);
+
+            if (user == null) return null;
+
             return new UserToReturn {
                 Email = user.Email,
                 Name = user.Name,
@@ -72,7 +75,7 @@ namespace Practica.Data.Respositories
         {
             try
             {
-                db.User.AddOrUpdate(user);
+                db.User.Add(user);
                 await db.SaveChangesAsync();
                 
                 UserToReturn registeredUser = await GetUserByEmail(user.Email);
@@ -84,9 +87,20 @@ namespace Practica.Data.Respositories
             }
         }
 
-        public Task<UserToReturn> UpdateUser(string email)
+        public async Task<UserToReturn> UpdateUser(User user)
         {
-            throw new NotImplementedException();
+            try
+            {
+                db.User.AddOrUpdate(user);
+                await db.SaveChangesAsync();
+
+                UserToReturn registeredUser = await GetUserByEmail(user.Email);
+                return registeredUser;
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Problema con la base de datos, no se pudo realizar el registro.", e);
+            }
         }
 
         public Task<ActionResult> DeleteUser(string email)

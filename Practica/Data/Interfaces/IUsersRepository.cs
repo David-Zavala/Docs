@@ -13,7 +13,7 @@ namespace Practica.Data.Interfaces
         Task<UserToReturn> GetUserByEmail(string email);
         Task<User> GetFullUserByEmail(string email);
         Task<UserToReturn> RegisterUser(User user);
-        Task<UserToReturn> UpdateUser(string email);
+        Task<UserToReturn> UpdateUser(User user);
         Task<ActionResult> DeleteUser(string email);
         Task<UserToReturn> TryLogin(Login loginUser);
     }

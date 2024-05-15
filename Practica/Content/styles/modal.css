@@ -23,7 +23,7 @@
     position: absolute;
     top: 50%;
     transform: translate(-50%, -50%);
-    width: 30em;
+    width: 40em;
     text-align: left;
     max-height: 90vh;
     display: flex;
@@ -99,4 +99,11 @@
     display:flex;
     flex-direction:column;
     justify-content:center;
+}
+
+.closeModalButton:hover{
+    fill: white;
+    background-color: black;
+    cursor: pointer;
+    border-radius:4px;
 }

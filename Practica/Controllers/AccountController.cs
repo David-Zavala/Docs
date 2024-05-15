@@ -59,6 +59,9 @@ namespace Practica.Controllers
 
             User newUserMapped = MapRegisterToUser(newUser);
 
+            UserToReturn userExists = await usersR.GetUserByEmail(newUserMapped.Email);
+            if (userExists != null) return Json(new { success = false, message = "El correo electrónico ya esta registrado, ¿desea actualizar la información?", update = true });
+
             try
             {
                 int actualUserResult = await UserIsAdmin();
@@ -66,11 +69,11 @@ namespace Practica.Controllers
                 if (actualUserResult == 0) RedirectToAction("Home", "Home");
 
                 UserToReturn registeredUser = await usersR.RegisterUser(newUserMapped);
-                return Json(new { success = true, message = "Nuevo usuario registrado exitosamente" });
+                return Json(new { success = true, message = "Nuevo usuario registrado exitosamente", update = false });
             }
             catch (Exception ex)
             {
-                return Json(new { success = false, message = "Error al intentar registrar usuario en la base de datos: " + ex.Message });
+                return Json(new { success = false, message = "Error al intentar registrar usuario en la base de datos: " + ex.Message, update = false });
             }
 
         }
