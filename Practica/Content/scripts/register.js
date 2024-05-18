@@ -147,14 +147,12 @@ $(document).ready(function () {
     });
     $("#soh").on('click', function () {
         if ($("#soh").attr("active") == "0") {
-            console.log("ASDASDAS")
             $("#invisible").addClass("hidden");
             $("#visible").removeClass("hidden");
             $("#Password").attr("type", "text");
             $("#soh").attr("active", "1");
         }
         else if ($("#soh").attr("active") == "1") {
-            console.log("ASDASDAS 2222222")
             $("#visible").addClass("hidden");
             $("#invisible").removeClass("hidden");
             $("#Password").attr("type", "password");
@@ -163,14 +161,12 @@ $(document).ready(function () {
     });
     $("#soh2").on('click', function () {
         if ($("#soh2").attr("active") == "0") {
-            console.log("ASDASDAS")
             $("#invisible2").addClass("hidden");
             $("#visible2").removeClass("hidden");
             $("#ConfirmPassword").attr("type", "text");
             $("#soh2").attr("active", "1");
         }
         else if ($("#soh2").attr("active") == "1") {
-            console.log("ASDASDAS 2222222")
             $("#visible2").addClass("hidden");
             $("#invisible2").removeClass("hidden");
             $("#ConfirmPassword").attr("type", "password");
@@ -198,7 +194,7 @@ async function sendRegisterRequest() {
     registerData.append('Email', DocForm.Email);
     registerData.append('Password', $('#Password').val());
     registerData.append('ConfirmPassword', $('#ConfirmPassword').val());
-    registerData.append('AdminRole', $('#AdminRole').val());
+    registerData.append('AdminRole', $('#AdminRole').prop('checked'));
 
     await $.ajax({
         url: '/Account/Register',

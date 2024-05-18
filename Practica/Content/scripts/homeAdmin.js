@@ -122,16 +122,6 @@ $(document).ready(function () {
                 $('.DeleteSelectionButton').css('display', 'none');
         }
     });
-    $('.ButtonViewJPG').on('click', function () {
-        var filePath = $(this).val();
-        var fileId = $(this).attr('fileId');
-        console.log(filePath);
-        console.log(fileId);
-        $("#selected-image-object").attr({ "src": filePath });
-        $(".ButtonDownloadInModal").attr({ "value": filePath });
-        $(".ButtonDeleteInModal").attr({ "value": fileId });
-        $("#selected-image").removeClass('hidden');
-    });
     $('#closeImageModal').on('click', function () {
         $("#selected-image").addClass('hidden');
         $("#selected-image-object").attr({ "src": "" });
@@ -145,37 +135,6 @@ $(document).ready(function () {
             $(".ButtonDownloadInModal").attr({ "value": "" });
             $(".ButtonDeleteInModal").attr({ "value": "" });
         }
-    });
-    $("#AdminRole").on('change', function () {
-        role = $(this).prop('checked');
-        if (role) {
-            $(".checkbox-label").addClass("border-green");
-            $(".checkbox-label").text("Administrador");
-        }
-        else {
-            $(".checkbox-label").removeClass("border-green");
-            $(".checkbox-label").text("Usuario");
-        }
-        DocForm.AdminRole = role;
-    });
-    $("#SearchFilter-Button").on('click', function () {
-        filter = $('#SearchFilter').val();
-        $.ajax({
-            url: 'Home/HomeAdmin'
-        });
-        console.log(filter);
-    });
-    $("#SearchForm").on('submit', function () {
-        filter = $('#SearchFilter').val();
-        console.log(filter);
-    });
-    $(".ButtonDelete").on('click', function () {
-        fileId = $(this).val();
-        console.log(fileId);
-        $("#acceptDeletingModal").attr({ "option": "unique" });
-        $("#acceptDeletingModal").attr({ "fileId": fileId });
-        $("#confirmDeletionContent").html(fileId + "<br />");
-        $("#confirmDeletion").removeClass("hidden");
     });
     $('.closeDeletingModal').on('click', function () {
         var modalItem = $(this).attr("fatherModal");
@@ -204,10 +163,24 @@ $(document).ready(function () {
         $("#acceptDeletingModal").attr({ "fileId": "" });
         $("#confirmDeletionContent").html("");
     });
-    $('.ButtonDownload').on('click', function (e) {
+    $('#DocsTable tbody').on('click', '.ButtonViewJPG', function () {
+        var filePath = $(this).val();
+        var fileId = $(this).attr('fileId');
+        $("#selected-image-object").attr({ "src": filePath });
+        $(".ButtonDownloadInModal").attr({ "value": filePath });
+        $(".ButtonDeleteInModal").attr({ "value": fileId });
+        $("#selected-image").removeClass('hidden');
+    });
+    $('#DocsTable tbody').on('click', '.ButtonDownload', function (e) {
         var file = $(this).val().substring(18);
-        console.log(file);
-        DownloadFile(file);
+        DownloadFile(file); 
+    });
+    $("#DocsTable tbody").on('click', '.ButtonDelete', function () {
+        fileId = $(this).val();
+        $("#acceptDeletingModal").attr({ "option": "unique" });
+        $("#acceptDeletingModal").attr({ "fileId": fileId });
+        $("#confirmDeletionContent").html(fileId + "<br />");
+        $("#confirmDeletion").removeClass("hidden");
     });
 });
 
